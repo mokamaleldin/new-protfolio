@@ -22,8 +22,8 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const sizeClasses =
     size === 'hero'
-      ? 'text-[48px] sm:text-[58px] md:text-[74px] lg:text-[88px] xl:text-[94px]'
-      : 'text-[40px] sm:text-[48px] md:text-[62px] lg:text-[72px] xl:text-[80px]';
+      ? 'text-[44px] sm:text-[56px] md:text-[70px] lg:text-[84px] xl:text-[90px] rtl:text-[38px] rtl:sm:text-[48px] rtl:md:text-[58px] rtl:lg:text-[66px]'
+      : 'text-[38px] sm:text-[46px] md:text-[58px] lg:text-[68px] xl:text-[76px] rtl:text-[34px] rtl:sm:text-[42px] rtl:md:text-[50px] rtl:lg:text-[58px]';
 
   return (
     <Tag
