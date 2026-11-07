@@ -106,9 +106,9 @@ export function ProfileCard({ locale }: ProfileCardProps) {
 
   return (
     <motion.aside
-      initial={{ opacity: 0, y: 18 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: SAWAD_EASE }}
+      transition={{ duration: 0.45, ease: SAWAD_EASE }}
       aria-label={name}
       className="relative w-full md:w-[300px] lg:w-[320px] shrink-0 rounded-[20px] bg-white px-[20px] pt-[30px] pb-[24px] text-[#121212] shadow-[0_20px_50px_rgba(0,0,0,0.4)] md:sticky md:top-[40px]"
     >

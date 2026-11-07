@@ -63,7 +63,12 @@ html[lang="ar"] body {
 html[lang="ar"] .font-display {
   font-family: var(--font-alexandria), sans-serif;
   letter-spacing: 0em;
-  line-height: 1.2;
+  line-height: 1.22;
+}
+
+html[lang="ar"] h1.font-display,
+html[lang="ar"] h2.font-display {
+  font-size: clamp(2.1rem, 4.8vw, 4.15rem);
 }
 
 /* Custom focus indicator for keyboard accessibility */

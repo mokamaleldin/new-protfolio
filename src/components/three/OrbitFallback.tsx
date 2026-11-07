@@ -21,9 +21,9 @@ export function OrbitFallback() {
         strokeDasharray="6 7"
         strokeLinecap="round"
       />
-      {/* Mid-left dashed orbit arc passing through the orange circular badge */}
+      {/* Mid-left dashed orbit arc curving above the orange circular badge */}
       <path
-        d="M -16 420 C 42 414, 96 382, 118 338"
+        d="M -16 420 C 38 416, 78 394, 102 362"
         stroke="#F46C38"
         strokeWidth="3.5"
         strokeDasharray="6 7"

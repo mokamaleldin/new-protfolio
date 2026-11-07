@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
 export const SAWAD_SPRING = {
@@ -20,14 +20,40 @@ interface RevealProps {
   once?: boolean;
 }
 
+/**
+ * Progressive reveal wrapper that never leaves elements invisible on SSR,
+ * headless browsers, or before IntersectionObserver fires.
+ * Content is always visible (`opacity: 1`) on initial paint, and gently
+ * animates in when entering the viewport below the fold.
+ */
 export function Reveal({
   children,
   delay = 0,
-  y = 22,
+  y = 14,
   className,
-  once = true,
 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const [entered, setEntered] = useState(true);
+
+  useEffect(() => {
+    if (prefersReducedMotion || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    if (rect.top > window.innerHeight * 0.92) {
+      setEntered(false);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setEntered(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(ref.current);
+      return () => observer.disconnect();
+    }
+  }, [prefersReducedMotion]);
 
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
@@ -35,10 +61,10 @@ export function Reveal({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount: 0.2 }}
-      transition={{ duration: 0.5, delay, ease: SAWAD_EASE }}
+      ref={ref}
+      initial={false}
+      animate={entered ? { opacity: 1, y: 0 } : { opacity: 0.15, y }}
+      transition={{ duration: 0.45, delay: Math.min(delay, 0.18), ease: SAWAD_EASE }}
       className={className}
     >
       {children}

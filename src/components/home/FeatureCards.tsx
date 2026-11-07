@@ -5,7 +5,7 @@ import { Layers, LayoutPanelTop, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { SAWAD_EASE, SAWAD_SPRING } from '@/components/motion/Reveal';
+import { SAWAD_SPRING } from '@/components/motion/Reveal';
 
 export function FeatureCards() {
   const t = useTranslations('featureCards');
@@ -13,12 +13,7 @@ export function FeatureCards() {
   return (
     <section className="mt-[46px] grid grid-cols-1 sm:grid-cols-12 gap-[20px]">
       {/* Card A — Orange: Systems Analysis, Solution Design */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.52, ease: SAWAD_EASE }}
-        className="sm:col-span-5"
-      >
+      <div className="sm:col-span-5">
         <Link
           href="/experience#approach"
           aria-label={t('cardA.aria')}
@@ -64,15 +59,10 @@ export function FeatureCards() {
             </motion.span>
           </div>
         </Link>
-      </motion.div>
+      </div>
 
       {/* Card B — Lime Green: Media Technology, AI Automation */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6, ease: SAWAD_EASE }}
-        className="sm:col-span-7"
-      >
+      <div className="sm:col-span-7">
         <Link
           href="/projects"
           aria-label={t('cardB.aria')}
@@ -115,7 +105,7 @@ export function FeatureCards() {
             </motion.span>
           </div>
         </Link>
-      </motion.div>
+      </div>
     </section>
   );
 }
