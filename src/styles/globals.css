@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-sm: 430px;
+  --breakpoint-md: 810px;
+  --breakpoint-lg: 1080px;
+  --breakpoint-xl: 1440px;
+
+  --color-sawad-bg: #151312;
+  --color-sawad-nav: #1F1C1B;
+  --color-sawad-orange: #F46C38;
+  --color-sawad-orange-dark: #CA592E;
+  --color-sawad-lime: #C5FF41;
+  --color-sawad-muted: #998F8F;
+  --color-sawad-heading-muted: #353334;
+  --color-sawad-input: #2E2B2B;
+  --color-sawad-card: #FFFFFF;
+  --color-sawad-card-text: #121212;
+  --color-sawad-card-sub: #6A6B6E;
+
+  --font-en-display: var(--font-poppins), sans-serif;
+  --font-en-body: var(--font-poppins), sans-serif;
+  --font-ar-display: var(--font-alexandria), sans-serif;
+  --font-ar-body: var(--font-ibm-arabic), sans-serif;
+}
+
+:root {
+  --bg: #151312;
+  --orange: #F46C38;
+  --orange-dark: #CA592E;
+  --lime: #C5FF41;
+  --muted-text: #998F8F;
+  --muted-heading: #353334;
+  --nav-bg: rgba(255, 255, 255, 0.05);
+  --input-bg: #2E2B2B;
+}
+
+html {
+  background-color: #151312;
+  color: #FFFFFF;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #151312;
+  color: #FFFFFF;
+  font-family: var(--font-poppins), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html[lang="ar"] body {
+  font-family: var(--font-ibm-arabic), var(--font-alexandria), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-poppins), sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+html[lang="ar"] .font-display {
+  font-family: var(--font-alexandria), sans-serif;
+  letter-spacing: 0em;
+  line-height: 1.2;
+}
+
+/* Custom focus indicator for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #F46C38;
+  outline-offset: 3px;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #F46C38;
+  color: #FFFFFF;
+}
