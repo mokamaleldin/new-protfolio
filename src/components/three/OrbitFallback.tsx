@@ -11,14 +11,14 @@ export function OrbitFallback() {
       aria-hidden="true"
       viewBox="0 0 300 540"
       fill="none"
-      className="pointer-events-none absolute inset-0 h-full w-full select-none overflow-hidden rounded-[20px]"
+      className="pointer-events-none absolute inset-0 z-20 h-full w-full select-none overflow-hidden rounded-[20px]"
     >
-      {/* Top-left dashed orbit arc */}
+      {/* Top-left dashed orbit arc crossing over the portrait corner */}
       <path
-        d="M -18 42 C 28 96, 128 84, 152 -14"
+        d="M -4 18 C 24 108, 138 104, 174 -8"
         stroke="#F46C38"
         strokeWidth="3.5"
-        strokeDasharray="6 7"
+        strokeDasharray="6.5 6.5"
         strokeLinecap="round"
       />
       {/* Mid-left dashed orbit arc curving above the orange circular badge */}
@@ -26,7 +26,7 @@ export function OrbitFallback() {
         d="M -16 420 C 38 416, 78 394, 102 362"
         stroke="#F46C38"
         strokeWidth="3.5"
-        strokeDasharray="6 7"
+        strokeDasharray="6.5 6.5"
         strokeLinecap="round"
       />
     </svg>
