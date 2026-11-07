@@ -1,6 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="14" fill="#151312"/>
-  <path d="M12 46V18H17.5L24.5 31.5L31.5 18H37V46H31.5V28.5L25.5 39.5H23.5L17.5 28.5V46H12Z" fill="#FFFFFF"/>
-  <path d="M41 46V18H46.5V30.5L54.5 18H60.5L51.5 31.2L61 46H54.5L46.5 33.2V46H41Z" fill="#FFFFFF"/>
-  <circle cx="56" cy="12" r="4" fill="#F46C38"/>
+  <defs>
+    <linearGradient id="sawad-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF7844" />
+      <stop offset="100%" stop-color="#F46C38" />
+    </linearGradient>
+    <clipPath id="squircle">
+      <rect width="64" height="64" rx="15" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#squircle)">
+    <rect width="64" height="64" fill="url(#sawad-bg)" />
+    <!-- Subtle Sawad orbital arc in the background -->
+    <path
+      d="M-6 18C10 34 34 30 44 -4"
+      stroke="#CA592E"
+      stroke-width="2.5"
+      stroke-dasharray="4 4.5"
+      stroke-linecap="round"
+      opacity="0.45"
+    />
+    <!-- Bold architectural M monogram -->
+    <path
+      d="M12.5 45.5V18.5H20.8L32 34.2L43.2 18.5H51.5V45.5H43.8V30.1L33.6 44.5H30.4L20.2 30.1V45.5H12.5Z"
+      fill="#151312"
+    />
+  </g>
 </svg>
