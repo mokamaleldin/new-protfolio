@@ -91,6 +91,8 @@ npm run build     # Builds production Next.js bundle
 2. **Adding or Editing Projects:**
    Edit `src/data/projects.ts`. Any project with `status: 'published'` and `featured: true` automatically appears on the homepage, `/projects`, `/sitemap.xml`, and updates the `FEATURED PROJECTS` hero counter.
 3. **Enabling Email Delivery (Resend):**
-   Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`. When `RESEND_API_KEY` is omitted, the contact form clearly informs the visitor and opens their default mail client pre-addressed to `mohammed.kamal.eliwa@gmail.com`.
-4. **Connecting Custom Domain (`mokamaleldin`):**
-   Once a final TLD is chosen, set `NEXT_PUBLIC_SITE_URL=https://your-domain.tld` in your deployment environment variables to enable canonical URLs and sitemap domain generation.
+   Verify a sending domain in Resend, then set `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` (an address on that verified domain), and `CONTACT_RECIPIENT_EMAIL` in Vercel's Production environment. Never commit API keys. Until the key and sender are configured, the form clearly informs the visitor and opens their default mail client pre-addressed to `mohammed.kamal.eliwa@gmail.com`.
+4. **Connecting Custom Domain (`mokamaleldin.com`):**
+   Set `NEXT_PUBLIC_SITE_URL=https://mokamaleldin.com` in Vercel's Production environment for canonical URLs and sitemap generation. Add the apex and `www` domains to the project, redirect `www` to the apex, and copy the project's recommended DNS records into GoDaddy.
+5. **Visitor Analytics & Performance:**
+   The localized root layout includes Vercel Web Analytics and Speed Insights for both English and Arabic routes. Enable each feature in the Vercel project dashboard and redeploy. Web Analytics reports visitors and page views; Speed Insights measures real visitor performance. Keep the included tiers unless an upgrade is explicitly wanted.

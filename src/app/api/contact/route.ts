@@ -52,9 +52,11 @@ export async function POST(request: Request) {
     }
 
     const resendKey = process.env.RESEND_API_KEY;
+    const sender = process.env.CONTACT_FROM_EMAIL;
     const recipient = process.env.CONTACT_RECIPIENT_EMAIL || siteConfig.email;
 
-    if (resendKey) {
+    // Resend requires a sender on a verified domain for production delivery.
+    if (resendKey && sender) {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -62,7 +64,7 @@ export async function POST(request: Request) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Portfolio Contact <onboarding@resend.dev>',
+          from: sender,
           to: [recipient],
           reply_to: data.email,
           subject: `[Portfolio] ${data.inquiryType} — from ${data.name}`,
@@ -81,6 +83,8 @@ export async function POST(request: Request) {
       if (response.ok) {
         return NextResponse.json({ ok: true, mode: 'sent' });
       }
+
+      console.error('Contact email delivery failed', { status: response.status });
     }
 
     // Disclosed mailto fallback when Resend is not configured

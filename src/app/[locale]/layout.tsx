@@ -1,5 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import {
   Poppins,
   Alexandria,
@@ -113,6 +115,8 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <SiteShell locale={typedLocale}>{children}</SiteShell>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
