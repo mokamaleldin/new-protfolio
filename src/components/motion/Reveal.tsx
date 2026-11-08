@@ -30,7 +30,7 @@ interface RevealProps {
 export function Reveal({
   children,
   delay = 0,
-  y = 12,
+  y = 8,
   className,
   fast = false,
 }: RevealProps) {
@@ -40,14 +40,14 @@ export function Reveal({
     return <div className={className}>{children}</div>;
   }
 
-  const duration = fast ? 0.26 : 0.42;
-  const clampedDelay = Math.min(delay, fast ? 0.08 : 0.15);
+  const duration = fast ? 0.18 : 0.28;
+  const clampedDelay = Math.min(delay, fast ? 0.04 : 0.08);
 
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12, margin: '0px 0px -40px 0px' }}
+      viewport={{ once: true, amount: 0.08, margin: '0px 0px 80px 0px' }}
       transition={{
         duration,
         delay: clampedDelay,

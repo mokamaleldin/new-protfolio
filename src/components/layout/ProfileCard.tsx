@@ -2,7 +2,6 @@
 
 import React, { useId } from 'react';
 import { siteConfig } from '@/data/site-config';
-import { profileScene } from '@/data/profile-scene';
 import { activeSocials, type SocialLink } from '@/data/socials';
 import type { Locale } from '@/i18n/routing';
 import { OrbitFallback } from '@/components/three/OrbitFallback';
@@ -149,7 +148,6 @@ function BrandMonogramBadge() {
 export function ProfileCard({ locale }: ProfileCardProps) {
   const name = siteConfig.owner.name[locale];
   const bio = siteConfig.owner.profileCardBio[locale];
-  const alt = siteConfig.profileImage.alt[locale];
 
   return (
     <aside
@@ -161,12 +159,7 @@ export function ProfileCard({ locale }: ProfileCardProps) {
 
       <div className="relative z-10 flex flex-col items-center text-center">
         {/* Inner rounded orange portrait frame */}
-        <ProfilePortrait
-          locale={locale}
-          photoSrc={siteConfig.profileImage.src}
-          photoAlt={alt}
-          scene={profileScene}
-        />
+        <ProfilePortrait locale={locale} />
 
         {/* Full Name */}
         <h2 className="mt-[20px] font-display text-[23px] sm:text-[24px] font-extrabold tracking-[-0.03em] text-[#121212] leading-[1.18]">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   House,
   Folder,
@@ -12,8 +12,14 @@ import { motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { SAWAD_SPRING } from '@/components/motion/Reveal';
 import { cn } from '@/lib/cn';
+
+const NAV_SPRING = {
+  type: 'spring' as const,
+  stiffness: 550,
+  damping: 36,
+  mass: 0.8,
+};
 
 interface FloatingNavigationProps {
   locale: Locale;
@@ -25,10 +31,40 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
   const prefersReducedMotion = useReducedMotion();
   const [activeTooltipId, setActiveTooltipId] = useState<string | null>(null);
   const [optimisticPathname, setOptimisticPathname] = useState<string | null>(null);
+  const autoDismissTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const hideTooltip = () => {
+    if (autoDismissTimerRef.current) {
+      clearTimeout(autoDismissTimerRef.current);
+      autoDismissTimerRef.current = null;
+    }
+    setActiveTooltipId(null);
+  };
+
+  const showTooltip = (id: string) => {
+    if (autoDismissTimerRef.current) {
+      clearTimeout(autoDismissTimerRef.current);
+    }
+    setActiveTooltipId(id);
+    // Auto-dismiss within 1.1s so it NEVER remains stuck on touch/mobile screens
+    autoDismissTimerRef.current = setTimeout(() => {
+      setActiveTooltipId(null);
+      autoDismissTimerRef.current = null;
+    }, 1100);
+  };
 
   useEffect(() => {
     setOptimisticPathname(null);
+    hideTooltip();
   }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (autoDismissTimerRef.current) {
+        clearTimeout(autoDismissTimerRef.current);
+      }
+    };
+  }, []);
 
   const currentPath = optimisticPathname ?? pathname;
 
@@ -77,7 +113,7 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
 
     const handleWindowKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setActiveTooltipId(null);
+        hideTooltip();
       }
     };
 
@@ -89,32 +125,43 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
     <header className="fixed top-[16px] sm:top-[20px] inset-x-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none">
       <nav
         aria-label={t('ariaLabel')}
-        className="pointer-events-auto flex items-center gap-[6px] sm:gap-[10px] rounded-[12px] bg-[#1F1C1B]/95 px-[10px] py-[6px] border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md"
+        className="pointer-events-auto flex items-center gap-[6px] sm:gap-[10px] rounded-[12px] bg-[#1F1C1B]/95 px-[10px] py-[6px] border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md touch-manipulation"
       >
         {items.map((item) => {
           const Icon = item.icon;
-          const showTooltip = activeTooltipId === item.id;
+          const showTooltipFlag = activeTooltipId === item.id;
 
           return (
             <div
               key={item.id}
               className="relative flex items-center justify-center"
-              onMouseEnter={() => setActiveTooltipId(item.id)}
-              onMouseLeave={() =>
-                setActiveTooltipId((prev) => (prev === item.id ? null : prev))
-              }
+              onPointerEnter={(e) => {
+                // Desktop hover only — ignore touch taps so tooltips don't get stuck
+                if (e.pointerType !== 'touch') {
+                  showTooltip(item.id);
+                }
+              }}
+              onPointerLeave={hideTooltip}
             >
               <Link
                 href={item.href}
+                prefetch={true}
                 aria-label={item.label}
                 aria-current={item.isActive ? 'page' : undefined}
-                onClick={() => setOptimisticPathname(item.href)}
-                onFocus={() => setActiveTooltipId(item.id)}
-                onBlur={() =>
-                  setActiveTooltipId((prev) => (prev === item.id ? null : prev))
-                }
+                onClick={(e) => {
+                  hideTooltip();
+                  setOptimisticPathname(item.href);
+                  (e.currentTarget as HTMLElement).blur();
+                }}
+                onFocus={(e) => {
+                  // Only display tooltip on focus if navigated via keyboard (:focus-visible)
+                  if (e.currentTarget.matches(':focus-visible')) {
+                    showTooltip(item.id);
+                  }
+                }}
+                onBlur={hideTooltip}
                 className={cn(
-                  'relative flex h-[36px] w-[36px] items-center justify-center rounded-[8px] transition-colors duration-200',
+                  'relative flex h-[36px] w-[36px] items-center justify-center rounded-[8px] transition-colors duration-150 touch-manipulation cursor-pointer',
                   item.isActive
                     ? 'text-white'
                     : 'text-white/75 hover:bg-white/[0.05] hover:text-[#F46C38]'
@@ -126,7 +173,7 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
                   ) : (
                     <motion.span
                       layoutId="sawad-nav-active"
-                      transition={SAWAD_SPRING}
+                      transition={NAV_SPRING}
                       className="absolute inset-0 rounded-[8px] bg-[#F46C38]"
                     />
                   ))}
@@ -137,12 +184,12 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
                 />
               </Link>
 
-              {showTooltip && (
+              {showTooltipFlag && (
                 <span
                   role="tooltip"
-                  className="absolute top-[42px] pt-[4px] z-20"
+                  className="pointer-events-none absolute top-[42px] pt-[4px] z-20"
                 >
-                  <span className="block whitespace-nowrap rounded-[6px] border border-white/10 bg-[#282423] px-2.5 py-1 text-[11px] font-medium text-white shadow-md">
+                  <span className="block whitespace-nowrap rounded-[6px] border border-white/10 bg-[#282423] px-2.5 py-1 text-[11px] font-medium text-white shadow-md animate-fade-in-quick">
                     {item.label}
                   </span>
                 </span>
@@ -159,20 +206,29 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
         {/* Compact ع / EN language switcher with full language name on hover/focus */}
         <div
           className="relative flex items-center justify-center"
-          onMouseEnter={() => setActiveTooltipId('lang')}
-          onMouseLeave={() =>
-            setActiveTooltipId((prev) => (prev === 'lang' ? null : prev))
-          }
+          onPointerEnter={(e) => {
+            if (e.pointerType !== 'touch') {
+              showTooltip('lang');
+            }
+          }}
+          onPointerLeave={hideTooltip}
         >
           <Link
             href={pathname || '/'}
             locale={targetLocale}
+            prefetch={true}
             aria-label={t('switchLanguageAria')}
-            onFocus={() => setActiveTooltipId('lang')}
-            onBlur={() =>
-              setActiveTooltipId((prev) => (prev === 'lang' ? null : prev))
-            }
-            className="flex h-[36px] min-w-[36px] items-center justify-center rounded-[8px] px-2 font-semibold text-white/85 transition-colors duration-200 hover:bg-white/[0.06] hover:text-[#F46C38]"
+            onClick={(e) => {
+              hideTooltip();
+              (e.currentTarget as HTMLElement).blur();
+            }}
+            onFocus={(e) => {
+              if (e.currentTarget.matches(':focus-visible')) {
+                showTooltip('lang');
+              }
+            }}
+            onBlur={hideTooltip}
+            className="flex h-[36px] min-w-[36px] items-center justify-center rounded-[8px] px-2 font-semibold text-white/85 transition-colors duration-150 hover:bg-white/[0.06] hover:text-[#F46C38] touch-manipulation cursor-pointer"
           >
             <span
               aria-hidden="true"
@@ -187,8 +243,11 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
           </Link>
 
           {activeTooltipId === 'lang' && (
-            <span role="tooltip" className="absolute top-[42px] pt-[4px] z-20">
-              <span className="block whitespace-nowrap rounded-[6px] border border-white/10 bg-[#282423] px-2.5 py-1 text-[11px] font-medium text-white shadow-md">
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute top-[42px] pt-[4px] z-20"
+            >
+              <span className="block whitespace-nowrap rounded-[6px] border border-white/10 bg-[#282423] px-2.5 py-1 text-[11px] font-medium text-white shadow-md animate-fade-in-quick">
                 {t('switchLanguageTooltip')}
               </span>
             </span>
