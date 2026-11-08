@@ -1,74 +1,76 @@
 {
   "nav": {
-    "ariaLabel": "Primary navigation",
+    "ariaLabel": "Primary",
     "home": "Home",
     "projects": "Projects",
+    "approach": "How I Work",
     "experience": "Experience",
-    "tools": "Tools",
     "contact": "Contact",
     "switchLanguage": "العربية",
     "switchLanguageAria": "Switch language to Arabic"
   },
-  "stats": {
-    "yearsLine1": "YEARS IN",
-    "yearsLine2": "TECH",
-    "projectsLine1": "FEATURED",
-    "projectsLine2": "PROJECTS",
-    "recommendationsLine1": "PROFESSIONAL",
-    "recommendationsLine2": "RECOMMENDATIONS"
+  "hero": {
+    "discussProject": "Discuss your project",
+    "viewSelectedWork": "View selected work"
   },
   "featureCards": {
     "cardA": {
-      "line1": "SYSTEMS ANALYSIS,",
-      "line2": "SOLUTION DESIGN",
-      "aria": "Explore Systems Analysis & Solution Design approach"
+      "line1": "Systems Analysis &",
+      "line2": "Solution Design",
+      "description": "Understand how your team works, pinpoint bottlenecks, and design a clear solution.",
+      "aria": "Explore Systems Analysis & Solution Design — How I Work"
     },
     "cardB": {
-      "line1": "MEDIA TECHNOLOGY,",
-      "line2": "AI AUTOMATION",
-      "aria": "Explore Media Technology & AI Automation projects"
+      "line1": "Media Technology &",
+      "line2": "AI Automation",
+      "description": "Custom software and AI workflows built to speed up production and daily operations.",
+      "aria": "Explore Media Technology & AI Automation — Selected Projects"
     }
   },
   "sections": {
     "recentProjects": {
-      "line1": "RECENT",
+      "line1": "SELECTED",
       "line2": "PROJECTS",
-      "viewAll": "View all projects"
+      "viewAll": "View all projects",
+      "viewCaseStudy": "Read case study"
     },
     "experience": {
-      "line1Prefix": "YEARS OF",
+      "line1": "PROFESSIONAL",
       "line2": "EXPERIENCE",
       "present": "Present",
-      "viewAll": "Full experience & recommendations"
+      "viewAll": "View experience"
     },
-    "specialization": {
+    "approach": {
+      "title": "How I Work",
       "line1": "HOW I",
       "line2": "WORK",
-      "subtitle": "Specializing in Systems Analysis, Solution Design, Workflow Optimization, and AI Automation."
-    },
-    "tools": {
-      "line1": "PREMIUM",
-      "line2": "TOOLS",
-      "viewAll": "All engineering tools"
+      "subtitle": "A clear four-stage process for media organizations, production teams, and business owners—starting with how your team actually works and ending with a practical solution you can rely on.",
+      "outcomeLabel": "Outcome:",
+      "techNote": "Tools and technologies are selected around the problem—whether that requires custom web software, system integrations, or AI-assisted workflows. Specific technical implementations are detailed inside each project case study.",
+      "ctaTitle": "Facing a workflow challenge or planning a technical solution?",
+      "ctaDescription": "Share how your team currently works and where time gets lost, and let's discuss the right next step.",
+      "ctaButton": "Discuss your project"
     },
     "recommendations": {
-      "line1": "COLLEAGUE",
-      "line2": "ENDORSEMENTS",
-      "viewAllOnExperience": "Read all 9 LinkedIn recommendations",
-      "viewOnLinkedIn": "Verified on LinkedIn",
+      "line1": "WHAT COLLEAGUES",
+      "line2": "SAY",
+      "viewAllOnExperience": "More colleague recommendations",
+      "viewOnLinkedIn": "Read original recommendations on LinkedIn",
       "showOriginal": "Show original English",
-      "showArabic": "Show Arabic translation",
-      "readMore": "Read full quote",
-      "readLess": "Show less"
-    },
-    "ventures": {
-      "line1": "VENTURES &",
-      "line2": "PRODUCTS"
+      "showArabic": "Show Arabic translation"
     },
     "contact": {
+      "title": "Let's work together",
       "line1": "LET'S WORK",
       "line2": "TOGETHER",
-      "subtitle": "Have an operational bottleneck, media workflow challenge, or software project in mind? Send a message directly."
+      "subtitle": "Facing a workflow challenge or planning a technical solution? Share the details so we can discuss the right next step.",
+      "socialHeading": "Professional profiles & channels",
+      "githubBadge": "Code & Repositories"
+    },
+    "ctaBanner": {
+      "heading": "Let's work together",
+      "description": "Facing a workflow challenge or planning a technical solution? Share the details so we can discuss the right next step.",
+      "button": "Discuss your project"
     }
   },
   "projectDetail": {
@@ -77,58 +79,51 @@
     "timeline": "Timeline",
     "category": "Category",
     "liveWebsite": "Visit Live Website",
-    "sourceCode": "Repository",
-    "privateRepo": "Private Repository (Case Study Available)",
-    "highlights": "Key Contributions",
-    "challenge": "Problem & Operational Challenge",
-    "analysis": "System & Workflow Analysis",
-    "solution": "Solution Design",
-    "implementation": "Technical Implementation",
-    "decisions": "Architecture Decisions",
-    "outcomes": "Verified Outcomes",
-    "techStack": "Technology Stack",
-    "relatedProjects": "More Featured Projects"
+    "sourceCode": "Source Code",
+    "context": "Context & Operational Problem",
+    "solution": "My Contribution & Solution",
+    "outcome": "Value & Practical Outcome",
+    "techStack": "Technologies Used",
+    "relatedProjects": "Selected Projects"
   },
   "contactForm": {
     "nameLabel": "Name",
-    "namePlaceholder": "Your Name",
+    "namePlaceholder": "Your full name",
     "emailLabel": "Email",
     "emailPlaceholder": "your@email.com",
-    "inquiryLabel": "Inquiry Type",
+    "inquiryLabel": "Inquiry Type (Optional)",
     "inquiryOptions": {
       "select": "Select inquiry type...",
-      "systems": "Systems Analysis & Workflow Optimization",
-      "media": "Media Technology & AI Automation",
-      "software": "Web / Mobile Software Engineering",
-      "partnership": "Venture / Strategic Collaboration",
-      "other": "General Inquiry"
+      "systems": "Systems analysis & workflow improvement",
+      "media": "Media technology & AI automation",
+      "software": "Web or mobile application development",
+      "partnership": "Partnership or collaboration",
+      "consultation": "Consultation or inquiry"
     },
-    "budgetLabel": "Estimated Budget (Optional)",
+    "budgetLabel": "Estimated Budget in USD (Optional)",
     "budgetOptions": {
-      "select": "Select...",
-      "under3k": "< $3k",
-      "3kTo5k": "$3k – $5k",
-      "5kTo10k": "$5k – $10k",
-      "over10k": "> $10k",
-      "notSure": "Exploring / Not sure yet"
+      "select": "Select estimated range...",
+      "under1k": "Under $1,000",
+      "1kTo3k": "$1,000–$3,000",
+      "3kTo5k": "$3,000–$5,000",
+      "over5k": "Over $5,000",
+      "notSure": "Not sure yet"
     },
     "messageLabel": "Message",
-    "messagePlaceholder": "Tell me about the system, workflow challenge, or project you want to build...",
-    "submit": "Submit",
+    "messagePlaceholder": "Briefly describe your current workflow, the challenge you are facing, and what you want to improve.",
+    "submit": "Send Message",
     "submitting": "Sending...",
     "directEmailPrefix": "Or email directly at",
-    "successSent": "Thank you! Your message has been sent directly to Mohamed.",
-    "mailtoDisclosed": "Email delivery isn't connected on this preview server yet—your default email client has been opened with your message pre-filled to mohammed.kamal.eliwa@gmail.com.",
+    "successSent": "Thank you. Your message has been sent. I'll get back to you as soon as possible.",
     "errors": {
       "nameRequired": "Please enter your name (at least 2 characters).",
       "emailInvalid": "Please enter a valid email address.",
       "messageShort": "Please write a brief message (at least 10 characters).",
-      "generic": "Could not send right now. Please use the direct email link below."
+      "generic": "Unable to send your message right now. Please try again or use the direct email link."
     }
   },
   "footer": {
     "builtBy": "Mohamed Kamaleldin",
-    "role": "Media Technology & AI Automation Engineer",
-    "templateCredit": "Visual layout inspired by Sawad"
+    "role": "Media Technology & AI Automation Engineer"
   }
 }

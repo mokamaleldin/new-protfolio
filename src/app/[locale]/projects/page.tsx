@@ -5,7 +5,7 @@ import { publishedProjects } from '@/data/projects';
 import type { Locale } from '@/i18n/routing';
 import { SectionHeading } from '@/components/sections/SectionHeading';
 import { ProjectRow } from '@/components/projects/ProjectRow';
-import { ContactSection } from '@/components/sections/ContactSection';
+import { ContactCtaBanner } from '@/components/sections/ContactCtaBanner';
 import { Reveal } from '@/components/motion/Reveal';
 
 export async function generateMetadata({
@@ -20,9 +20,11 @@ export async function generateMetadata({
   return {
     title: t('projects'),
     alternates: {
+      canonical: `/${locale}/projects`,
       languages: {
         en: '/en/projects',
         ar: '/ar/projects',
+        'x-default': '/en/projects',
       },
     },
   };
@@ -52,7 +54,7 @@ export default async function ProjectsPage({
         />
       </Reveal>
 
-      <div className="mt-[36px] flex flex-col gap-[18px]">
+      <div className="mt-[32px] flex flex-col gap-[16px]">
         {publishedProjects.map((project, idx) => (
           <Reveal key={project.slug} delay={idx * 0.05}>
             <ProjectRow project={project} locale={locale} />
@@ -60,7 +62,7 @@ export default async function ProjectsPage({
         ))}
       </div>
 
-      <ContactSection />
+      <ContactCtaBanner />
     </div>
   );
 }

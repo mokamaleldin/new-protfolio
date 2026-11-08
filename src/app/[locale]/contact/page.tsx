@@ -16,9 +16,11 @@ export async function generateMetadata({
   return {
     title: t('contact'),
     alternates: {
+      canonical: `/${locale}/contact`,
       languages: {
         en: '/en/contact',
         ar: '/ar/contact',
+        'x-default': '/en/contact',
       },
     },
   };
@@ -35,7 +37,7 @@ export default async function ContactPage({
 
   return (
     <div>
-      <ContactSection asPageHeading />
+      <ContactSection asPageHeading showSocialLinks />
     </div>
   );
 }

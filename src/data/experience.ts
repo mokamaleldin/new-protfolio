@@ -16,7 +16,6 @@ export interface ExperienceEntry {
   roles: ExperienceRole[];
   summary: LocalizedText;
   responsibilities: LocalizedText[];
-  technologies?: string[];
   featuredOnHome: boolean;
 }
 
@@ -24,6 +23,7 @@ export interface SpecializationStage {
   number: string;
   title: LocalizedText;
   description: LocalizedText;
+  outcome: LocalizedText;
 }
 
 export const experienceEntries: ExperienceEntry[] = [
@@ -40,7 +40,7 @@ export const experienceEntries: ExperienceEntry[] = [
     },
     workMode: {
       en: 'Hybrid',
-      ar: 'هجين (Hybrid)',
+      ar: 'هجين',
     },
     url: 'https://kashida.io/',
     roles: [
@@ -53,32 +53,19 @@ export const experienceEntries: ExperienceEntry[] = [
       },
     ],
     summary: {
-      en: 'Leading client discovery, systems analysis, solution design, software development, and AI-powered workflow automation for media organizations.',
-      ar: 'قيادة التواصل مع العملاء، وتحليل الأنظمة ومتطلبات العمل، وتصميم الحلول البرمجية، وتطوير أدوات الأتمتة بالذكاء الاصطناعي للمؤسسات الإعلامية.',
+      en: 'I design and build software solutions and AI-powered tools for media organizations, starting from systems analysis and operational requirements in direct collaboration with clients.',
+      ar: 'أصمم وأطوّر حلولًا برمجية وأدوات تعتمد على الذكاء الاصطناعي للمؤسسات الإعلامية، بدءًا من تحليل الأنظمة ومتطلبات العمل، وبالتعاون المباشر مع العملاء.',
     },
     responsibilities: [
       {
-        en: 'Client communication and professional relationship development.',
-        ar: 'التواصل مع العملاء وتطوير العلاقات المهنية والشراكات.',
+        en: 'Analyzing newsroom and media production workflows to define practical technical scopes and system architectures.',
+        ar: 'تحليل مسارات العمل في المؤسسات الإعلامية وتحويل الاحتياجات التشغيلية إلى حلول تقنية واضحة.',
       },
       {
-        en: 'Business and technical requirements analysis.',
-        ar: 'تحليل متطلبات العمل والمتطلبات التقنية للمشاريع.',
-      },
-      {
-        en: 'Systems analysis and practical solution design.',
-        ar: 'تحليل الأنظمة القائمة وتصميم حلول تقنية عملية.',
-      },
-      {
-        en: 'Full-stack software development and AI-powered automation implementation.',
-        ar: 'تطوير البرمجيات وبناء مسارات الأتمتة المدعومة بالذكاء الاصطناعي.',
-      },
-      {
-        en: 'Business development and continuous technical delivery improvements.',
-        ar: 'تطوير الأعمال وتحسين جودة وكفاءة التسليم التقني.',
+        en: 'Building full-stack software, Arabic visual templating engines, and AI-assisted publishing pipelines.',
+        ar: 'تطوير البرمجيات وأدوات التصميم البصري ومسارات النشر المؤتمتة المدعومة بالذكاء الاصطناعي.',
       },
     ],
-    technologies: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL', 'AI Automation'],
     featuredOnHome: true,
   },
   {
@@ -94,7 +81,7 @@ export const experienceEntries: ExperienceEntry[] = [
     },
     workMode: {
       en: 'On-site',
-      ar: 'من المقر (On-site)',
+      ar: 'حضوري',
     },
     roles: [
       {
@@ -114,28 +101,19 @@ export const experienceEntries: ExperienceEntry[] = [
       },
     ],
     summary: {
-      en: 'Building AI-assisted media workflows, visual-content production tooling, and technical improvements for everyday digital publishing operations.',
-      ar: 'بناء مسارات عمل إعلامية مدعومة بالذكاء الاصطناعي، وأدوات إنتاج محتوى بصري، وتحسينات تقنية لعمليات النشر الرقمي اليومية.',
+      en: 'I develop intelligent automation workflows and production tools that support digital content creation and publishing, built around the team’s daily workflow and needs.',
+      ar: 'أطوّر أدوات ومسارات أتمتة ذكية تدعم إنتاج المحتوى والنشر الرقمي، انطلاقًا من احتياجات الفريق وطريقة عمله اليومية.',
     },
     responsibilities: [
       {
-        en: 'Designing and implementing AI-assisted media workflows.',
-        ar: 'تصميم وتنفيذ مسارات عمل إعلامية مدعومة بالذكاء الاصطناعي.',
+        en: 'Designing and implementing AI-assisted media production workflows and visual content tooling.',
+        ar: 'تصميم وتنفيذ مسارات عمل إعلامية مدعومة بالذكاء الاصطناعي وأدوات لإنتاج المحتوى البصري.',
       },
       {
-        en: 'Delivering technical improvements for digital content operations.',
-        ar: 'تطوير تحسينات تقنية لرفع كفاءة عمليات المحتوى الرقمي.',
-      },
-      {
-        en: 'Web development, digital publishing support, and visual-content production tooling.',
-        ar: 'تطوير الويب، ودعم النشر الرقمي، وبناء أدوات إنتاج المحتوى البصري.',
-      },
-      {
-        en: 'Workflow automation, prompt engineering, and integrating practical technology into everyday media work.',
-        ar: 'أتمتة المهام المتكررة، وهندسة الأوامر (Prompt Engineering)، ودمج التقنية في الشغل الإعلامي اليومي.',
+        en: 'Delivering web development and automation improvements that reduce repetitive daily publishing tasks.',
+        ar: 'تطوير تحسينات برمجية وحلول أتمتة تختصر المهام اليومية المتكررة في عمليات النشر الرقمي.',
       },
     ],
-    technologies: ['React', 'Next.js', 'TypeScript', 'AI Workflows', 'Prompt Engineering', 'Media Tooling'],
     featuredOnHome: true,
   },
   {
@@ -151,7 +129,7 @@ export const experienceEntries: ExperienceEntry[] = [
     },
     workMode: {
       en: 'Hybrid',
-      ar: 'هجين (Hybrid)',
+      ar: 'هجين',
     },
     roles: [
       {
@@ -165,28 +143,27 @@ export const experienceEntries: ExperienceEntry[] = [
       {
         title: {
           en: 'Frontend Developer',
-          ar: 'مطور واجهات أمامية (Frontend)',
+          ar: 'مطور واجهات أمامية',
         },
         start: '2024-08',
         end: '2025-01',
       },
     ],
     summary: {
-      en: 'Engineered web applications, frontend architectures, and interactive product interfaces using React and Next.js before expanding into full-stack delivery.',
-      ar: 'تطوير تطبيقات ويب وهيكلة واجهات أمامية تفاعلية باستخدام React وNext.js، ثم التوسع لمهام التطوير المتكامل (Full-Stack).',
+      en: 'Engineered responsive web applications and interactive product interfaces using React and Next.js before expanding into full-stack feature delivery.',
+      ar: 'طوّرت تطبيقات ويب وواجهات منتجات تفاعلية باستخدام React وNext.js، ثم توسعت المسؤوليات لتشمل التطوير المتكامل وربط الخدمات.',
     },
     responsibilities: [
       {
-        en: 'Frontend architecture and component engineering with Next.js and React.',
-        ar: 'هيكلة الواجهات الأمامية وبناء المكونات باستخدام Next.js وReact.',
+        en: 'Built modular frontend architectures and reusable UI components with Next.js, React, and TypeScript.',
+        ar: 'بناء واجهات أمامية ومكونات برمجية قابلة لإعادة الاستخدام باستخدام Next.js وReact وTypeScript.',
       },
       {
-        en: 'Full-stack web application engineering and API integration.',
-        ar: 'تطوير تطبيقات الويب وربط الواجهات مع خدمات الباك إند.',
+        en: 'Delivered full-stack application features and backend API integrations.',
+        ar: 'تنفيذ مزايا متكاملة في تطبيقات الويب وربط الواجهات بخدمات الخادم.',
       },
     ],
-    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
-    featuredOnHome: true,
+    featuredOnHome: false,
   },
   {
     id: 'id8-media',
@@ -201,7 +178,7 @@ export const experienceEntries: ExperienceEntry[] = [
     },
     workMode: {
       en: 'On-site',
-      ar: 'من المقر (On-site)',
+      ar: 'حضوري',
     },
     url: 'https://id8media.com/en',
     roles: [
@@ -223,76 +200,41 @@ export const experienceEntries: ExperienceEntry[] = [
       },
     ],
     summary: {
-      en: 'Built real-time television production web interfaces, news publishing applications, scheduling views, and live ticker/election data integrations.',
-      ar: 'العمل على تطبيقات ويب لحظية للإنتاج التلفزيوني، وواجهات نشر إخباري، وأنظمة جدولة، ودمج البيانات الحية مع أنظمة إدارة المحتوى.',
+      en: 'Contributed to real-time television production web applications, program scheduling interfaces, and CMS-connected news platforms within the engineering team.',
+      ar: 'ساهمت ضمن فريق التطوير في بناء واجهات ويب للإنتاج التلفزيوني اللحظي، وأنظمة جدولة البرامج، ومنصات النشر الإخباري.',
     },
     responsibilities: [
       {
-        en: 'Contributed to real-time television production web applications.',
-        ar: 'المساهمة في تطوير تطبيقات ويب لحظية خاصة بالإنتاج التلفزيوني.',
+        en: 'Implemented producer interfaces, scheduling workflows, and live election/ticker displays.',
+        ar: 'تطوير واجهات عمل المنتجين، ومسارات الجدولة، وشاشات عرض بيانات الانتخابات وشريط الأخبار.',
       },
       {
-        en: 'Implemented news publishing interfaces, scheduling workflows, and CMS functionality.',
-        ar: 'تنفيذ واجهات النشر الإخباري، ومسارات الجدولة، وربط أنظمة إدارة المحتوى (CMS).',
-      },
-      {
-        en: 'Integrated live data feeds and built responsive web interfaces.',
-        ar: 'ربط البيانات الحية وبناء واجهات ويب متجاوبة وسريعة.',
+        en: 'Connected frontend applications with REST APIs and Strapi CMS in collaboration with senior developers and designers.',
+        ar: 'ربط تطبيقات الواجهة الأمامية بواجهات البرمجة ونظام Strapi بالتعاون مع فريق الهندسة والتصميم.',
       },
     ],
-    technologies: ['Next.js', 'React', 'Material UI', 'Tailwind CSS', 'Strapi', 'REST APIs'],
-    featuredOnHome: false,
-  },
-  {
-    id: 'freelance',
-    order: 5,
-    company: {
-      en: 'Freelance Work',
-      ar: 'عمل حر (Freelance)',
-    },
-    location: {
-      en: 'Remote',
-      ar: 'عن بُعد',
-    },
-    roles: [
-      {
-        title: {
-          en: 'Junior Frontend Developer',
-          ar: 'مطور واجهات أمامية (Junior)',
-        },
-        start: '2023-04',
-        end: '2023-07',
-      },
-    ],
-    summary: {
-      en: 'Developed custom frontend interfaces and a web scraping application using Next.js, JavaScript, Tailwind CSS, and Framer Motion.',
-      ar: 'تطوير واجهات ويب مخصصة وتطبيق لجمع واستخلاص البيانات (Web Scraping) باستخدام Next.js وJavaScript وTailwind CSS وFramer Motion.',
-    },
-    responsibilities: [
-      {
-        en: 'Built a web scraping application and responsive client interfaces.',
-        ar: 'بناء تطبيق Web Scraping وواجهات مستخدم متجاوبة.',
-      },
-      {
-        en: 'Implemented interactive motion and clean layout styling with Next.js, Tailwind CSS, and Framer Motion.',
-        ar: 'تنفيذ حركات تفاعلية وتنسيقات متقنة باستخدام Next.js وTailwind CSS وFramer Motion.',
-      },
-    ],
-    technologies: ['Next.js', 'JavaScript', 'Tailwind CSS', 'Framer Motion'],
     featuredOnHome: false,
   },
 ];
+
+export const homeExperienceEntries = experienceEntries.filter(
+  (entry) => entry.featuredOnHome
+);
 
 export const specializationStages: SpecializationStage[] = [
   {
     number: '01',
     title: {
       en: 'Understand',
-      ar: 'فهم النظام',
+      ar: 'فهم العمل',
     },
     description: {
-      en: 'Understand the business context, daily team operations, actual requirements, and how the existing system behaves in reality.',
-      ar: 'فهم طبيعة العمل، وطريقة شغل الفريق اليومية، والمتطلبات الفعلية، وإزاي النظام الحالي بيشتغل على أرض الواقع.',
+      en: 'I learn the nature of your business, daily workflows, and the people and tools involved. Together we clarify the real operational requirements before jumping into technical choices.',
+      ar: 'أفهم طبيعة النشاط، والعمل اليومي، والأشخاص والأدوات المستخدمة، والمتطلبات الفعلية. أركّز على رؤية سير العمل كما يجري في الواقع قبل اقتراح أي أداة.',
+    },
+    outcome: {
+      en: 'A shared picture of current reality and the target goal.',
+      ar: 'صورة مشتركة عن الواقع والهدف.',
     },
   },
   {
@@ -302,8 +244,12 @@ export const specializationStages: SpecializationStage[] = [
       ar: 'تحليل المشكلة',
     },
     description: {
-      en: 'Identify operational bottlenecks, manual dependencies, inefficiencies, integration gaps, and root causes before writing code.',
-      ar: 'تحديد نقاط الاختناق، والاعتماديات اليدوية المرهقة، وفجوات الربط بين الأدوات، والوصول للسبب الجذري للمشكلة قبل كتابة الكود.',
+      en: 'I identify operational bottlenecks, repetitive manual tasks, integration gaps, and the root causes that slow down delivery. This separates symptoms from the core problem worth solving.',
+      ar: 'أحدد نقاط الاختناق، والتكرار اليدوي، وفجوات الربط، والأسباب التي تؤخر الإنجاز. نفصل بذلك بين الأعراض الجانبية والمشكلة الأساسية التي تستحق المعالجة.',
+    },
+    outcome: {
+      en: 'A clearly defined problem and clear priorities.',
+      ar: 'مشكلة محددة وأولويات واضحة.',
     },
   },
   {
@@ -313,8 +259,12 @@ export const specializationStages: SpecializationStage[] = [
       ar: 'تصميم الحل',
     },
     description: {
-      en: 'Translate verified requirements into clear software architectures, automation workflows, and practical integration plans.',
-      ar: 'تحويل المتطلبات الواضحة لمعمارية برمجية مناسبة، ومسارات أتمتة عملية، وخطة ربط قابلة للتنفيذ.',
+      en: 'I turn verified needs into a practical solution concept, realistic scope, and execution plan. We decide clearly what requires custom development, system integration, or AI automation.',
+      ar: 'أحوّل الاحتياجات إلى تصور عملي للحل ونطاق مناسب وخطة تنفيذ، وأختار ما يحتاج إلى تطوير أو ربط أو أتمتة. تتضح بذلك معالم الحل وطريقة عمله قبل كتابة الكود.',
+    },
+    outcome: {
+      en: 'A clear, understood solution before execution begins.',
+      ar: 'حل مفهوم قبل بدء التنفيذ.',
     },
   },
   {
@@ -324,8 +274,12 @@ export const specializationStages: SpecializationStage[] = [
       ar: 'التنفيذ والتحسين',
     },
     description: {
-      en: 'Implement the software or workflow, test its behavior under real operational load, and refine it continuously with the team.',
-      ar: 'بناء الحل البرمجي أو مسار الأتمتة، واختباره في ظروف التشغيل الحقيقية، وتطويره باستمرار بناءً على ملاحظات الفريق.',
+      en: 'I build the solution and test it under real operational conditions with your team. After deployment, I follow up on team feedback and refine the workflow as needs evolve.',
+      ar: 'أبني الحل وأختبره في ظروف الاستخدام الفعلية، وأتابع ملاحظات الفريق وتحسينه. يضمن ذلك اعتماد الفريق للحل بسلاسة واستمراره في خدمة العمل.',
+    },
+    outcome: {
+      en: 'A dependable solution ready for use and future growth.',
+      ar: 'حل قابل للاستخدام والتطوير.',
     },
   },
 ];

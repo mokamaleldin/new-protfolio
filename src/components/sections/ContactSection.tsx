@@ -1,17 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { siteConfig } from '@/data/site-config';
+import { activeSocials } from '@/data/socials';
+import { SocialSvg } from '@/components/layout/ProfileCard';
 import { SectionHeading } from '@/components/sections/SectionHeading';
 import { Reveal } from '@/components/motion/Reveal';
+import { cn } from '@/lib/cn';
 
 interface ContactSectionProps {
   asPageHeading?: boolean;
+  showSocialLinks?: boolean;
 }
 
-export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
+export function ContactSection({
+  asPageHeading = false,
+  showSocialLinks = false,
+}: ContactSectionProps) {
   const tSection = useTranslations('sections.contact');
   const t = useTranslations('contactForm');
 
@@ -23,9 +31,14 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
   const [websiteHoneypot, setWebsiteHoneypot] = useState('');
   const [startedAt] = useState(() => Date.now());
 
-  const [status, setStatus] = useState<
-    'idle' | 'submitting' | 'sent' | 'mailto' | 'error'
-  >('idle');
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'sent' | 'error'>(
+    'idle'
+  );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const clientSchema = z.object({
@@ -34,17 +47,50 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
     message: z.string().trim().min(10, t('errors.messageShort')),
   });
 
+  function validateSingleField(field: 'name' | 'email' | 'message', val: string) {
+    const fieldSchema = clientSchema.shape[field];
+    const res = fieldSchema.safeParse(val);
+    if (!res.success) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        [field]: res.error.issues[0]?.message,
+      }));
+    }
+  }
+
+  function clearFieldError(field: 'name' | 'email' | 'message') {
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+    if (status === 'error') {
+      setErrorMessage(null);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrorMessage(null);
 
     const check = clientSchema.safeParse({ name, email, message });
     if (!check.success) {
+      const nextErrors: { name?: string; email?: string; message?: string } = {};
+      for (const issue of check.error.issues) {
+        const pathKey = issue.path[0] as 'name' | 'email' | 'message';
+        if (pathKey && !nextErrors[pathKey]) {
+          nextErrors[pathKey] = issue.message;
+        }
+      }
+      setFieldErrors(nextErrors);
       setErrorMessage(check.error.issues[0]?.message || t('errors.generic'));
       setStatus('error');
       return;
     }
 
+    setFieldErrors({});
     setStatus('submitting');
 
     try {
@@ -54,7 +100,7 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
         body: JSON.stringify({
           name,
           email,
-          inquiryType: inquiryType || 'general',
+          inquiryType: inquiryType || 'Consultation or inquiry',
           budget,
           message,
           websiteHoneypot,
@@ -62,41 +108,23 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
         }),
       });
 
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        throw new Error('Request failed');
-      }
-
-      if (json.mode === 'sent') {
-        setStatus('sent');
-        setName('');
-        setEmail('');
-        setInquiryType('');
-        setBudget('');
-        setMessage('');
+      const json = await res.json().catch(() => null);
+      if (
+        !res.ok ||
+        !json?.ok ||
+        (json.mode !== 'sent' && json.mode !== 'honeypot')
+      ) {
+        setErrorMessage(t('errors.generic'));
+        setStatus('error');
         return;
       }
 
-      // Disclosed mailto fallback
-      const subject = encodeURIComponent(
-        `Portfolio Inquiry (${inquiryType || 'General'}) — ${name}`
-      );
-      const bodyLines = [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        inquiryType ? `Inquiry Type: ${inquiryType}` : null,
-        budget ? `Estimated Budget: ${budget}` : null,
-        '',
-        message,
-      ]
-        .filter((line) => line !== null)
-        .join('\n');
-
-      const mailtoHref = `mailto:${siteConfig.email}?subject=${subject}&body=${encodeURIComponent(
-        bodyLines
-      )}`;
-      window.location.href = mailtoHref;
-      setStatus('mailto');
+      setStatus('sent');
+      setName('');
+      setEmail('');
+      setInquiryType('');
+      setBudget('');
+      setMessage('');
     } catch {
       setErrorMessage(t('errors.generic'));
       setStatus('error');
@@ -107,7 +135,7 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className={asPageHeading ? 'pt-1' : 'mt-[96px]'}
+      className={asPageHeading ? 'pt-1' : 'mt-[80px] scroll-mt-[90px]'}
     >
       <Reveal>
         <div id="contact-heading">
@@ -118,22 +146,25 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
             line2={tSection('line2')}
           />
         </div>
-        <p className="mt-[14px] max-w-[500px] text-[14px] sm:text-[15px] leading-[1.52] text-[#998F8F]">
+        <p className="mt-[14px] max-w-[540px] text-[15px] leading-[1.58] text-[#B8B0B0]">
           {tSection('subtitle')}
         </p>
       </Reveal>
 
-      <Reveal delay={0.08}>
+      <Reveal delay={0.06}>
         <form
           onSubmit={handleSubmit}
+          method="POST"
+          action="/api/contact"
           noValidate
-          className="mt-[32px] space-y-[18px]"
+          className="mt-[28px] space-y-[18px]"
         >
-          {/* Honeypot field hidden from screen readers and visual users */}
+          {/* Honeypot field hidden from assistive tech and visual users */}
           <div className="hidden" aria-hidden="true">
             <label htmlFor="contact-website-hp">Website</label>
             <input
               id="contact-website-hp"
+              name="websiteHoneypot"
               type="text"
               tabIndex={-1}
               autoComplete="off"
@@ -146,39 +177,82 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
             <div>
               <label
                 htmlFor="contact-name"
-                className="block text-[12px] font-medium text-[#998F8F] mb-[7px]"
+                className="block text-[13px] font-medium text-white/85 mb-[6px]"
               >
-                {t('nameLabel')}
+                {t('nameLabel')} <span className="text-[#F46C38]">*</span>
               </label>
               <input
                 id="contact-name"
                 name="name"
                 type="text"
                 required
+                minLength={2}
+                maxLength={120}
+                autoComplete="name"
+                enterKeyHint="next"
+                aria-invalid={Boolean(fieldErrors.name)}
+                aria-describedby={
+                  fieldErrors.name ? 'contact-name-error' : undefined
+                }
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  clearFieldError('name');
+                }}
+                onBlur={(e) => validateSingleField('name', e.target.value)}
                 placeholder={t('namePlaceholder')}
-                className="h-[42px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[14px] text-white placeholder:text-[#998F8F]/60 border border-transparent focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               />
+              {fieldErrors.name && (
+                <p
+                  id="contact-name-error"
+                  className="mt-1.5 text-[12px] text-red-300"
+                >
+                  {fieldErrors.name}
+                </p>
+              )}
             </div>
 
             <div>
               <label
                 htmlFor="contact-email"
-                className="block text-[12px] font-medium text-[#998F8F] mb-[7px]"
+                className="block text-[13px] font-medium text-white/85 mb-[6px]"
               >
-                {t('emailLabel')}
+                {t('emailLabel')} <span className="text-[#F46C38]">*</span>
               </label>
               <input
                 id="contact-email"
                 name="email"
                 type="email"
                 required
+                maxLength={180}
+                autoComplete="email"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                inputMode="email"
+                enterKeyHint="next"
+                aria-invalid={Boolean(fieldErrors.email)}
+                aria-describedby={
+                  fieldErrors.email ? 'contact-email-error' : undefined
+                }
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  clearFieldError('email');
+                }}
+                onBlur={(e) => validateSingleField('email', e.target.value)}
                 placeholder={t('emailPlaceholder')}
-                className="h-[42px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[14px] text-white placeholder:text-[#998F8F]/60 border border-transparent focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               />
+              {fieldErrors.email && (
+                <p
+                  id="contact-email-error"
+                  className="mt-1.5 text-[12px] text-red-300"
+                >
+                  {fieldErrors.email}
+                </p>
+              )}
             </div>
           </div>
 
@@ -186,7 +260,7 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
             <div>
               <label
                 htmlFor="contact-inquiry"
-                className="block text-[12px] font-medium text-[#998F8F] mb-[7px]"
+                className="block text-[13px] font-medium text-white/85 mb-[6px]"
               >
                 {t('inquiryLabel')}
               </label>
@@ -195,23 +269,23 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
                 name="inquiryType"
                 value={inquiryType}
                 onChange={(e) => setInquiryType(e.target.value)}
-                className="h-[42px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[14px] text-white border border-transparent focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               >
                 <option value="">{t('inquiryOptions.select')}</option>
-                <option value="Systems Analysis & Workflow Optimization">
+                <option value="Systems analysis & workflow improvement">
                   {t('inquiryOptions.systems')}
                 </option>
-                <option value="Media Technology & AI Automation">
+                <option value="Media technology & AI automation">
                   {t('inquiryOptions.media')}
                 </option>
-                <option value="Web / Mobile Software Engineering">
+                <option value="Web or mobile application development">
                   {t('inquiryOptions.software')}
                 </option>
-                <option value="Venture / Strategic Collaboration">
+                <option value="Partnership or collaboration">
                   {t('inquiryOptions.partnership')}
                 </option>
-                <option value="General Inquiry">
-                  {t('inquiryOptions.other')}
+                <option value="Consultation or inquiry">
+                  {t('inquiryOptions.consultation')}
                 </option>
               </select>
             </div>
@@ -219,7 +293,7 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
             <div>
               <label
                 htmlFor="contact-budget"
-                className="block text-[12px] font-medium text-[#998F8F] mb-[7px]"
+                className="block text-[13px] font-medium text-white/85 mb-[6px]"
               >
                 {t('budgetLabel')}
               </label>
@@ -228,14 +302,20 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
                 name="budget"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="h-[42px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[14px] text-white border border-transparent focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               >
                 <option value="">{t('budgetOptions.select')}</option>
-                <option value="< $3k">{t('budgetOptions.under3k')}</option>
-                <option value="$3k – $5k">{t('budgetOptions.3kTo5k')}</option>
-                <option value="$5k – $10k">{t('budgetOptions.5kTo10k')}</option>
-                <option value="> $10k">{t('budgetOptions.over10k')}</option>
-                <option value="Not sure">{t('budgetOptions.notSure')}</option>
+                <option value="Under $1,000">{t('budgetOptions.under1k')}</option>
+                <option value="$1,000–$3,000">
+                  {t('budgetOptions.1kTo3k')}
+                </option>
+                <option value="$3,000–$5,000">
+                  {t('budgetOptions.3kTo5k')}
+                </option>
+                <option value="Over $5,000">{t('budgetOptions.over5k')}</option>
+                <option value="Not sure yet">
+                  {t('budgetOptions.notSure')}
+                </option>
               </select>
             </div>
           </div>
@@ -243,26 +323,44 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
           <div>
             <label
               htmlFor="contact-message"
-              className="block text-[12px] font-medium text-[#998F8F] mb-[7px]"
+              className="block text-[13px] font-medium text-white/85 mb-[6px]"
             >
-              {t('messageLabel')}
+              {t('messageLabel')} <span className="text-[#F46C38]">*</span>
             </label>
             <textarea
               id="contact-message"
               name="message"
               rows={5}
               required
+              minLength={10}
+              maxLength={4000}
+              aria-invalid={Boolean(fieldErrors.message)}
+              aria-describedby={
+                fieldErrors.message ? 'contact-message-error' : undefined
+              }
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                clearFieldError('message');
+              }}
+              onBlur={(e) => validateSingleField('message', e.target.value)}
               placeholder={t('messagePlaceholder')}
-              className="w-full rounded-[8px] bg-[#2E2B2B] p-[14px] text-[14px] text-white placeholder:text-[#998F8F]/60 border border-transparent focus:border-[#F46C38] focus:outline-none transition-colors resize-y"
+              className="w-full rounded-[8px] bg-[#2E2B2B] p-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors resize-y"
             />
+            {fieldErrors.message && (
+              <p
+                id="contact-message-error"
+                className="mt-1.5 text-[12px] text-red-300"
+              >
+                {fieldErrors.message}
+              </p>
+            )}
           </div>
 
           {status === 'error' && errorMessage && (
             <p
               role="alert"
-              className="rounded-[8px] border border-red-500/40 bg-red-500/10 px-3.5 py-2.5 text-[13px] text-red-300"
+              className="rounded-[8px] border border-red-500/40 bg-red-500/10 px-4 py-3 text-[13px] sm:text-[14px] text-red-200"
             >
               {errorMessage}
             </p>
@@ -271,30 +369,22 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
           {status === 'sent' && (
             <p
               role="status"
-              className="rounded-[8px] border border-[#C5FF41]/40 bg-[#C5FF41]/10 px-3.5 py-2.5 text-[13px] text-[#C5FF41]"
+              aria-live="polite"
+              className="rounded-[8px] border border-[#C5FF41]/40 bg-[#C5FF41]/10 px-4 py-3 text-[13px] sm:text-[14px] text-[#C5FF41]"
             >
               {t('successSent')}
-            </p>
-          )}
-
-          {status === 'mailto' && (
-            <p
-              role="status"
-              className="rounded-[8px] border border-[#F46C38]/50 bg-[#F46C38]/10 px-3.5 py-2.5 text-[13px] text-white/90"
-            >
-              {t('mailtoDisclosed')}
             </p>
           )}
 
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all hover:bg-[#e35c27] disabled:opacity-60 cursor-pointer"
+            className="flex h-[48px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e35c27] disabled:opacity-60 disabled:hover:translate-y-0 cursor-pointer"
           >
             {status === 'submitting' ? t('submitting') : t('submit')}
           </button>
 
-          <p className="text-[12px] text-[#998F8F]">
+          <p className="text-[13px] text-[#998F8F]">
             {t('directEmailPrefix')}{' '}
             <a
               href={`mailto:${siteConfig.email}`}
@@ -305,6 +395,67 @@ export function ContactSection({ asPageHeading = false }: ContactSectionProps) {
           </p>
         </form>
       </Reveal>
+
+      {showSocialLinks && (
+        <Reveal delay={0.12} className="mt-[48px]">
+          <div className="border-t border-white/[0.08] pt-[32px]">
+            <h2 className="font-display text-[17px] sm:text-[18px] font-semibold text-white">
+              {tSection('socialHeading')}
+            </h2>
+
+            <div className="mt-[16px] grid grid-cols-1 sm:grid-cols-2 gap-[12px]">
+              {activeSocials.map((social) => {
+                const isGithub = social.id === 'github';
+                return (
+                  <a
+                    key={social.id}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      'group flex items-center justify-between gap-3 rounded-[11px] border p-[14px] sm:p-[16px] transition-all duration-200 hover:-translate-y-0.5',
+                      isGithub
+                        ? 'border-[#F46C38]/40 bg-[#F46C38]/[0.07] hover:border-[#F46C38] hover:bg-[#F46C38]/[0.12]'
+                        : 'border-white/[0.07] bg-[#1C1918] hover:border-white/[0.18] hover:bg-[#221E1D]'
+                    )}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span
+                        className={cn(
+                          'flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[8px]',
+                          isGithub
+                            ? 'bg-[#F46C38] text-white'
+                            : 'bg-white/[0.05] text-[#F46C38]'
+                        )}
+                      >
+                        <SocialSvg
+                          id={social.id}
+                          className="h-[18px] w-[18px]"
+                        />
+                      </span>
+                      <div className="min-w-0">
+                        <span className="block font-display text-[15px] font-semibold text-white">
+                          {social.label}
+                        </span>
+                        {isGithub && (
+                          <span className="block text-[11px] font-medium text-[#F46C38]">
+                            {tSection('githubBadge')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="h-[16px] w-[16px] shrink-0 text-[#998F8F] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#F46C38] rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
+                    />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
+      )}
     </section>
   );
 }

@@ -52,25 +52,25 @@ export default function OpenGraphImage() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span
             style={{
-              fontSize: 104,
+              fontSize: 78,
               fontWeight: 800,
-              lineHeight: 0.98,
-              letterSpacing: '-0.04em',
+              lineHeight: 1.04,
+              letterSpacing: '-0.03em',
               color: '#FFFFFF',
             }}
           >
-            MEDIA TECH
+            MEDIA TECHNOLOGY &
           </span>
           <span
             style={{
-              fontSize: 104,
+              fontSize: 78,
               fontWeight: 800,
-              lineHeight: 0.98,
-              letterSpacing: '-0.04em',
-              color: '#353334',
+              lineHeight: 1.04,
+              letterSpacing: '-0.03em',
+              color: '#F46C38',
             }}
           >
-            ENGINEER
+            AI AUTOMATION ENGINEER
           </span>
         </div>
 

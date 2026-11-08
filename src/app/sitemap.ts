@@ -4,9 +4,9 @@ import { routing } from '@/i18n/routing';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://mokamaleldin.vercel.app';
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://mokamaleldin.com';
 
-  const staticPaths = ['', '/projects', '/experience', '/tools', '/contact'];
+  const staticPaths = ['', '/projects', '/approach', '/experience', '/contact'];
 
   const staticEntries = routing.locales.flatMap((locale) =>
     staticPaths.map((p) => ({
@@ -14,6 +14,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: p === '' ? 1.0 : 0.8,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/en${p}`,
+          ar: `${baseUrl}/ar${p}`,
+        },
+      },
     }))
   );
 
@@ -23,6 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/en/projects/${project.slug}`,
+          ar: `${baseUrl}/ar/projects/${project.slug}`,
+        },
+      },
     }))
   );
 

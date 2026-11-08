@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { siteConfig } from '@/data/site-config';
+import { siteConfig } from '../../../data/site-config';
 
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(180),
-  inquiryType: z.string().trim().max(80).optional().default('general'),
-  budget: z.string().trim().max(60).optional().default(''),
+  inquiryType: z.string().trim().max(120).optional().default('Consultation or inquiry'),
+  budget: z.string().trim().max(80).optional().default(''),
   message: z.string().trim().min(10).max(4000),
   websiteHoneypot: z.string().optional().default(''),
   startedAt: z.number().optional(),
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
     }
 
-    const body = await request.json();
+    const body = await request.json().catch(() => null);
     const parsed = contactSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -51,49 +51,56 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, mode: 'honeypot' });
     }
 
-    const resendKey = process.env.RESEND_API_KEY;
-    const sender = process.env.CONTACT_FROM_EMAIL;
-    const recipient = process.env.CONTACT_RECIPIENT_EMAIL || siteConfig.email;
+    const resendKey = process.env.RESEND_API_KEY?.trim();
+    const sender = process.env.CONTACT_FROM_EMAIL?.trim();
+    const recipient =
+      process.env.CONTACT_RECIPIENT_EMAIL?.trim() || siteConfig.email;
 
-    // Resend requires a sender on a verified domain for production delivery.
-    if (resendKey && sender) {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: sender,
-          to: [recipient],
-          reply_to: data.email,
-          subject: `[Portfolio] ${data.inquiryType} — from ${data.name}`,
-          text: [
-            `Name: ${data.name}`,
-            `Email: ${data.email}`,
-            `Inquiry Type: ${data.inquiryType}`,
-            `Budget: ${data.budget || 'Not specified'}`,
-            '',
-            'Message:',
-            data.message,
-          ].join('\n'),
-        }),
-      });
-
-      if (response.ok) {
-        return NextResponse.json({ ok: true, mode: 'sent' });
-      }
-
-      console.error('Contact email delivery failed', { status: response.status });
+    // Require authorized email service configuration; never fall back to client mailto
+    if (!resendKey || !sender) {
+      return NextResponse.json(
+        { ok: false, error: 'service_unavailable' },
+        { status: 503 }
+      );
     }
 
-    // Disclosed mailto fallback when Resend is not configured
-    return NextResponse.json({
-      ok: true,
-      mode: 'mailto',
-      recipient,
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: [recipient],
+        reply_to: data.email,
+        subject: `[Portfolio] ${data.inquiryType || 'Inquiry'} — from ${data.name}`,
+        text: [
+          `Name: ${data.name}`,
+          `Email: ${data.email}`,
+          `Inquiry Type: ${data.inquiryType || 'Not specified'}`,
+          `Budget: ${data.budget || 'Not specified'}`,
+          '',
+          'Message:',
+          data.message,
+        ].join('\n'),
+      }),
+      signal: AbortSignal.timeout(10_000),
     });
-  } catch {
+
+    if (!response.ok) {
+      console.error('Contact email delivery failed', {
+        status: response.status,
+      });
+      return NextResponse.json(
+        { ok: false, error: 'delivery_failed' },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, mode: 'sent' });
+  } catch (err) {
+    console.error('Contact endpoint error', err);
     return NextResponse.json(
       { ok: false, error: 'server_error' },
       { status: 500 }

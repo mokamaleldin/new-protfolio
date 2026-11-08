@@ -1,8 +1,9 @@
 export interface SocialLink {
-  id: 'linkedin' | 'github' | 'youtube' | 'instagram' | 'pinterest' | 'telegram';
+  id: 'linkedin' | 'github' | 'youtube' | 'instagram' | 'telegram';
   label: string;
   href?: string;
   enabled: boolean;
+  featuredOnContact?: boolean;
 }
 
 export const socials: SocialLink[] = [
@@ -17,6 +18,7 @@ export const socials: SocialLink[] = [
     label: 'GitHub',
     href: 'https://github.com/mokamaleldin',
     enabled: true,
+    featuredOnContact: true,
   },
   {
     id: 'youtube',
@@ -28,12 +30,6 @@ export const socials: SocialLink[] = [
     id: 'instagram',
     label: 'Instagram',
     href: 'https://www.instagram.com/m.ke.e/',
-    enabled: true,
-  },
-  {
-    id: 'pinterest',
-    label: 'Pinterest',
-    href: 'https://tr.pinterest.com/mokamaleldin/',
     enabled: true,
   },
   {

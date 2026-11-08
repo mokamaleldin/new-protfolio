@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import type { Project } from '@/data/projects';
 import type { Locale } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
@@ -14,59 +14,52 @@ interface ProjectRowProps {
 }
 
 export function ProjectRow({ project, locale }: ProjectRowProps) {
+  const t = useTranslations('sections.recentProjects');
   const title = project.title[locale];
   const category = project.category[locale];
   const summary = project.summary[locale];
-  const hasRealThumb =
-    project.thumbnail && !project.thumbnail.placeholder;
+  const coverAlt = project.coverAlt[locale];
 
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group relative flex items-center justify-between gap-[16px] sm:gap-[22px] rounded-[14px] p-[12px] -mx-[12px] transition-colors duration-200 hover:bg-white/[0.03]"
+      className="group relative flex flex-col sm:flex-row sm:items-center justify-between gap-[16px] sm:gap-[22px] rounded-[14px] border border-white/[0.06] bg-[#1A1716]/75 p-[14px] sm:p-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/40 hover:bg-[#1E1B1A]"
     >
-      <div className="flex items-center gap-[16px] sm:gap-[20px] min-w-0">
-        {/* Thumbnail preview matching Sawad ~96-116px square/rounded */}
-        <div className="relative h-[84px] w-[84px] sm:h-[104px] sm:w-[104px] shrink-0 overflow-hidden rounded-[10px] bg-[#211E1D] transition-transform duration-300 group-hover:scale-[1.04]">
-          {hasRealThumb && project.thumbnail ? (
-            <Image
-              src={project.thumbnail.src}
-              alt={project.thumbnail.alt[locale]}
-              fill
-              sizes="104px"
-              className="object-cover"
-            />
-          ) : (
-            <ProjectCoverFallback
-              shortTitle={project.shortTitle}
-              title={title}
-              order={project.order}
-              size="thumb"
-            />
-          )}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-[14px] sm:gap-[20px] min-w-0 flex-1">
+        {/* Unified 16:10 Project Cover */}
+        <div className="w-full sm:w-[164px] md:w-[176px] shrink-0 overflow-hidden rounded-[10px]">
+          <ProjectCoverFallback
+            theme={project.coverTheme}
+            alt={coverAlt}
+            size="thumb"
+            className="transition-transform duration-200 group-hover:scale-[1.02]"
+          />
         </div>
 
-        {/* Project Title & Category */}
-        <div className="min-w-0">
-          <h3 className="font-display text-[19px] sm:text-[22px] font-semibold tracking-[-0.02em] text-white transition-colors group-hover:text-[#F46C38] truncate">
-            {title}
-          </h3>
-          <p className="mt-[3px] text-[13px] sm:text-[14px] font-normal text-[#998F8F] truncate">
+        {/* Project Title, Category & 2-sentence Summary */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="font-display text-[19px] sm:text-[21px] font-semibold tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-[#F46C38]">
+              {title}
+            </h3>
+            <span className="inline-flex shrink-0 items-center gap-1 text-[12px] font-medium text-[#F46C38]">
+              <span>{t('viewCaseStudy')}</span>
+              <ArrowUpRight
+                aria-hidden="true"
+                className="h-[15px] w-[15px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
+              />
+            </span>
+          </div>
+
+          <p className="mt-[3px] text-[13px] font-medium text-[#F46C38]/90">
             {category}
           </p>
-          <p className="mt-[6px] line-clamp-2 max-w-[460px] text-[13px] leading-[1.45] text-[#998F8F]/80 hidden sm:block">
+
+          <p className="mt-[7px] line-clamp-2 text-[13px] sm:text-[14px] leading-[1.52] text-[#998F8F]">
             {summary}
           </p>
         </div>
       </div>
-
-      {/* Top-right diagonal orange arrow */}
-      <span
-        aria-hidden="true"
-        className="self-start pt-2 pe-1 text-[#F46C38] transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 rtl:group-hover:-translate-x-1"
-      >
-        <ArrowUpRight className="h-[18px] w-[18px] rtl:-scale-x-100" />
-      </span>
     </Link>
   );
 }

@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   House,
   Folder,
+  Compass,
   BriefcaseBusiness,
-  Wrench,
   Mail,
 } from 'lucide-react';
-import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { SAWAD_SPRING } from '@/components/motion/Reveal';
 import { cn } from '@/lib/cn';
 
 interface FloatingNavigationProps {
@@ -22,7 +20,6 @@ interface FloatingNavigationProps {
 export function FloatingNavigation({ locale }: FloatingNavigationProps) {
   const t = useTranslations('nav');
   const pathname = usePathname();
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const items = [
     {
@@ -40,18 +37,18 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
       isActive: pathname.startsWith('/projects'),
     },
     {
+      id: 'approach',
+      href: '/approach',
+      label: t('approach'),
+      icon: Compass,
+      isActive: pathname.startsWith('/approach'),
+    },
+    {
       id: 'experience',
       href: '/experience',
       label: t('experience'),
       icon: BriefcaseBusiness,
       isActive: pathname.startsWith('/experience'),
-    },
-    {
-      id: 'tools',
-      href: '/tools',
-      label: t('tools'),
-      icon: Wrench,
-      isActive: pathname.startsWith('/tools'),
     },
     {
       id: 'contact',
@@ -65,74 +62,47 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
   const targetLocale: Locale = locale === 'en' ? 'ar' : 'en';
 
   return (
-    <header className="fixed top-[20px] inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+    <header className="fixed top-[16px] sm:top-[20px] inset-x-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none">
       <nav
         aria-label={t('ariaLabel')}
-        className="pointer-events-auto flex items-center gap-[8px] sm:gap-[10px] rounded-[12px] bg-[#1F1C1B]/95 px-[10px] py-[6px] border border-white/[0.06] shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md"
+        className="pointer-events-auto flex max-w-full items-center gap-[4px] sm:gap-[6px] overflow-x-auto rounded-[12px] bg-[#1F1C1B]/95 px-[8px] sm:px-[10px] py-[6px] border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md"
       >
         {items.map((item) => {
           const Icon = item.icon;
-          const isHovered = hoveredId === item.id;
 
           return (
-            <div
+            <Link
               key={item.id}
-              className="relative flex items-center justify-center"
-              onMouseEnter={() => setHoveredId(item.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <Link
-                href={item.href}
-                aria-label={item.label}
-                aria-current={item.isActive ? 'page' : undefined}
-                className={cn(
-                  'relative flex h-[36px] w-[36px] items-center justify-center rounded-[8px] transition-colors duration-200',
-                  item.isActive
-                    ? 'text-white'
-                    : 'text-white/75 hover:text-[#F46C38]'
-                )}
-              >
-                {item.isActive && (
-                  <motion.span
-                    layoutId="sawad-nav-active"
-                    transition={SAWAD_SPRING}
-                    className="absolute inset-0 rounded-[8px] bg-[#F46C38]"
-                  />
-                )}
-                <Icon
-                  className="relative z-10 h-[17px] w-[17px]"
-                  strokeWidth={1.85}
-                />
-              </Link>
-
-              {/* Sawad compact tooltip below icon */}
-              {isHovered && (
-                <motion.span
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.16 }}
-                  role="tooltip"
-                  className="pointer-events-none absolute top-[44px] whitespace-nowrap rounded-[6px] bg-[#282423] px-2.5 py-1 text-[11px] font-medium text-white shadow-md border border-white/10"
-                >
-                  {item.label}
-                </motion.span>
+              href={item.href}
+              aria-current={item.isActive ? 'page' : undefined}
+              className={cn(
+                'relative flex h-[36px] shrink-0 items-center gap-1.5 rounded-[8px] px-2.5 sm:px-3 text-[12px] sm:text-[13px] font-medium transition-colors duration-200',
+                item.isActive
+                  ? 'bg-[#F46C38] text-white'
+                  : 'text-white/80 hover:bg-white/[0.05] hover:text-[#F46C38]'
               )}
-            </div>
+            >
+              <Icon
+                aria-hidden="true"
+                className="h-[15px] w-[15px] shrink-0"
+                strokeWidth={1.9}
+              />
+              <span className="whitespace-nowrap">{item.label}</span>
+            </Link>
           );
         })}
 
         <span
           aria-hidden="true"
-          className="mx-0.5 h-[18px] w-[1px] bg-white/10"
+          className="mx-0.5 h-[18px] w-[1px] shrink-0 bg-white/10"
         />
 
-        {/* Integrated subtle EN / AR switcher */}
+        {/* Manual EN / AR language switcher preserving current path */}
         <Link
           href={pathname || '/'}
           locale={targetLocale}
           aria-label={t('switchLanguageAria')}
-          className="flex h-[36px] min-w-[36px] items-center justify-center rounded-[8px] px-2 text-[11px] font-semibold tracking-tight text-white/80 transition-colors hover:bg-white/[0.06] hover:text-[#F46C38]"
+          className="flex h-[36px] shrink-0 items-center justify-center rounded-[8px] px-2.5 text-[12px] font-semibold tracking-tight text-white/85 transition-colors duration-200 hover:bg-white/[0.06] hover:text-[#F46C38]"
         >
           {t('switchLanguage')}
         </Link>

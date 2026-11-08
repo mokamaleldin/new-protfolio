@@ -39,6 +39,9 @@ html {
   background-color: #151312;
   color: #FFFFFF;
   scroll-behavior: smooth;
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -64,6 +67,15 @@ html[lang="ar"] .font-display {
   font-family: var(--font-alexandria), sans-serif;
   letter-spacing: 0em;
   line-height: 1.22;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    transform: none !important;
+  }
 }
 
 /* Custom focus indicator for keyboard accessibility */

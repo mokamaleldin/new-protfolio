@@ -2,29 +2,26 @@
 
 import React from 'react';
 import { Layers, LayoutPanelTop, ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { SAWAD_SPRING } from '@/components/motion/Reveal';
 
 export function FeatureCards() {
   const t = useTranslations('featureCards');
 
   return (
-    <section className="mt-[46px] grid grid-cols-1 sm:grid-cols-12 gap-[20px]">
-      {/* Card A — Orange: Systems Analysis, Solution Design */}
-      <div className="sm:col-span-5">
+    <section className="mt-[40px] grid grid-cols-1 sm:grid-cols-12 gap-[18px]">
+      {/* Card A — Orange: Systems Analysis & Solution Design -> /approach */}
+      <div className="sm:col-span-6">
         <Link
-          href="/experience#approach"
+          href="/approach"
           aria-label={t('cardA.aria')}
-          className="group relative flex min-h-[196px] flex-col justify-between overflow-hidden rounded-[12px] bg-[#F46C38] p-[22px] text-white transition-transform duration-300 hover:-translate-y-1"
+          className="group relative flex h-full min-h-[210px] flex-col justify-between overflow-hidden rounded-[12px] bg-[#F46C38] p-[22px] text-white transition-transform duration-200 hover:-translate-y-0.5"
         >
-          {/* Sawad organic curve background SVG */}
           <svg
             aria-hidden="true"
             viewBox="0 0 280 200"
             fill="none"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35 transition-transform duration-500 group-hover:scale-105"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
           >
             <path
               d="M-20 170 C 60 150, 95 95, 130 55 C 165 15, 220 35, 300 20"
@@ -41,39 +38,41 @@ export function FeatureCards() {
           </svg>
 
           <div className="relative z-10">
-            <Layers className="h-[26px] w-[26px] text-white" strokeWidth={1.9} />
+            <Layers className="h-[25px] w-[25px] text-white" strokeWidth={1.9} />
           </div>
 
-          <div className="relative z-10 mt-[24px] flex items-end justify-between gap-3">
-            <h2 className="font-display text-[17px] lg:text-[18px] font-bold uppercase leading-[1.22] tracking-[-0.02em] text-white">
-              <span className="block">{t('cardA.line1')}</span>
-              <span className="block">{t('cardA.line2')}</span>
-            </h2>
+          <div className="relative z-10 mt-[20px]">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <h2 className="font-display text-[17px] lg:text-[18px] font-bold uppercase leading-[1.22] tracking-[-0.02em] text-white">
+                  <span className="block">{t('cardA.line1')}</span>
+                  <span className="block">{t('cardA.line2')}</span>
+                </h2>
+                <p className="mt-[8px] text-[13px] leading-[1.45] text-white/90">
+                  {t('cardA.description')}
+                </p>
+              </div>
 
-            <motion.span
-              whileHover={{ x: 3 }}
-              transition={SAWAD_SPRING}
-              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border border-white/60 text-white transition-colors group-hover:bg-white group-hover:text-[#F46C38]"
-            >
-              <ArrowRight className="h-[15px] w-[15px] rtl:-scale-x-100" />
-            </motion.span>
+              <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[7px] border border-white/60 text-white transition-all duration-200 group-hover:translate-x-0.5 group-hover:bg-white group-hover:text-[#F46C38] rtl:group-hover:-translate-x-0.5">
+                <ArrowRight className="h-[15px] w-[15px] rtl:-scale-x-100" />
+              </span>
+            </div>
           </div>
         </Link>
       </div>
 
-      {/* Card B — Lime Green: Media Technology, AI Automation */}
-      <div className="sm:col-span-7">
+      {/* Card B — Lime Green: Media Technology & AI Automation -> /projects */}
+      <div className="sm:col-span-6">
         <Link
           href="/projects"
           aria-label={t('cardB.aria')}
-          className="group relative flex min-h-[196px] flex-col justify-between overflow-hidden rounded-[12px] bg-[#C5FF41] p-[22px] text-[#121212] transition-transform duration-300 hover:-translate-y-1"
+          className="group relative flex h-full min-h-[210px] flex-col justify-between overflow-hidden rounded-[12px] bg-[#C5FF41] p-[22px] text-[#121212] transition-transform duration-200 hover:-translate-y-0.5"
         >
-          {/* Sawad geometric zigzag line pattern in exact rgba(108,227,182,0.5) */}
           <svg
             aria-hidden="true"
             viewBox="0 0 380 200"
             fill="none"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           >
             <polyline
               points="-10,185 55,15 115,190 190,15 245,175 335,20 390,165"
@@ -85,24 +84,27 @@ export function FeatureCards() {
 
           <div className="relative z-10">
             <LayoutPanelTop
-              className="h-[26px] w-[26px] text-[#121212]"
+              className="h-[25px] w-[25px] text-[#121212]"
               strokeWidth={1.9}
             />
           </div>
 
-          <div className="relative z-10 mt-[24px] flex items-end justify-between gap-3">
-            <h2 className="font-display text-[17px] lg:text-[18px] font-bold uppercase leading-[1.22] tracking-[-0.02em] text-[#121212]">
-              <span className="block">{t('cardB.line1')}</span>
-              <span className="block">{t('cardB.line2')}</span>
-            </h2>
+          <div className="relative z-10 mt-[20px]">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <h2 className="font-display text-[17px] lg:text-[18px] font-bold uppercase leading-[1.22] tracking-[-0.02em] text-[#121212]">
+                  <span className="block">{t('cardB.line1')}</span>
+                  <span className="block">{t('cardB.line2')}</span>
+                </h2>
+                <p className="mt-[8px] text-[13px] leading-[1.45] text-[#121212]/85">
+                  {t('cardB.description')}
+                </p>
+              </div>
 
-            <motion.span
-              whileHover={{ x: 3 }}
-              transition={SAWAD_SPRING}
-              className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border border-[#121212]/60 text-[#121212] transition-colors group-hover:bg-[#121212] group-hover:text-[#C5FF41]"
-            >
-              <ArrowRight className="h-[15px] w-[15px] rtl:-scale-x-100" />
-            </motion.span>
+              <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[7px] border border-[#121212]/60 text-[#121212] transition-all duration-200 group-hover:translate-x-0.5 group-hover:bg-[#121212] group-hover:text-[#C5FF41] rtl:group-hover:-translate-x-0.5">
+                <ArrowRight className="h-[15px] w-[15px] rtl:-scale-x-100" />
+              </span>
+            </div>
           </div>
         </Link>
       </div>
