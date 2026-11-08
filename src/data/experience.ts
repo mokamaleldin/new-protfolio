@@ -23,6 +23,8 @@ export interface SpecializationStage {
   number: string;
   title: LocalizedText;
   description: LocalizedText;
+  highlights: LocalizedText[];
+  example: LocalizedText;
   outcome: LocalizedText;
 }
 
@@ -225,61 +227,117 @@ export const specializationStages: SpecializationStage[] = [
   {
     number: '01',
     title: {
-      en: 'Understand',
+      en: 'Understand the Work',
       ar: 'فهم العمل',
     },
     description: {
-      en: 'I learn the nature of your business, daily workflows, and the people and tools involved. Together we clarify the real operational requirements before jumping into technical choices.',
-      ar: 'أفهم طبيعة النشاط، والعمل اليومي، والأشخاص والأدوات المستخدمة، والمتطلبات الفعلية. أركّز على رؤية سير العمل كما يجري في الواقع قبل اقتراح أي أداة.',
+      en: 'I learn the business goal, how the team works, who is involved, current tools, and how information and tasks move between them. If it starts from a new idea, we clarify its need and who will use it.',
+      ar: 'أفهم الهدف، وطريقة عمل الفريق، والأشخاص المشاركين، والأدوات الحالية، وكيف تنتقل المعلومات والمهام بينهم. وإذا كان المشروع فكرة جديدة، أفهم احتياجها ومن سيستخدمها.',
+    },
+    highlights: [
+      {
+        en: 'Review actual daily handoffs across editors, operators, designers, or stakeholders.',
+        ar: 'تتبّع الانتقال الفعلي للمهام والمعلومات بين المحررين والمصممين والعمليات دون افتراضات مسبقة.',
+      },
+      {
+        en: 'Identify existing tools, spreadsheets, CMS workflows, and communication channels—or define the core journey for a brand-new idea.',
+        ar: 'حصر الأدوات والأنظمة وقنوات المتابعة القائمة، أو تحديد رحلة المستخدم الأساسية عند البدء من فكرة جديدة.',
+      },
+    ],
+    example: {
+      en: 'With a media team: tracing how a story moves from topic prep and editing to design templates, review, and publishing. For a new idea: clarifying what task the first real user needs to complete quickly.',
+      ar: 'في فريق إعلامي: تتبّع انتقال المادة من التحضير والتحرير إلى القوالب البصرية والمراجعة ثم النشر. ومع فكرة جديدة: تحديد من سيستخدمها فعلًا وما المهمة التي يحتاج إنجازها بوضوح من أول زيارة.',
     },
     outcome: {
-      en: 'A shared picture of current reality and the target goal.',
-      ar: 'صورة مشتركة عن الواقع والهدف.',
+      en: 'A clear workflow map and defined scope',
+      ar: 'خريطة واضحة لسير العمل ونطاق محدد للبداية',
     },
   },
   {
     number: '02',
     title: {
-      en: 'Analyze',
-      ar: 'تحليل المشكلة',
+      en: 'Analyze Problems & Opportunities',
+      ar: 'تحليل المشكلات والفرص',
     },
     description: {
-      en: 'I identify operational bottlenecks, repetitive manual tasks, integration gaps, and the root causes that slow down delivery. This separates symptoms from the core problem worth solving.',
-      ar: 'أحدد نقاط الاختناق، والتكرار اليدوي، وفجوات الربط، والأسباب التي تؤخر الإنجاز. نفصل بذلك بين الأعراض الجانبية والمشكلة الأساسية التي تستحق المعالجة.',
+      en: 'I look for what causes delays, repetitive manual work, and disconnection between tools—while identifying practical improvement opportunities and the priorities worth tackling first.',
+      ar: 'أبحث عن أسباب التعطيل والتكرار اليدوي وفجوات الربط بين الأدوات، وأحدد فرص التطوير والأولويات التي تستحق البدء بها.',
+    },
+    highlights: [
+      {
+        en: 'Separate surface symptoms from root causes behind bottlenecks, copy-paste repetition, and stalled approvals.',
+        ar: 'التمييز بين الأعراض الظاهرة والأسباب الجذرية وراء التأخير وتكرار الإدخال اليدوي وفقدان السياق.',
+      },
+      {
+        en: 'Spot new development opportunities where unification, reusable assets, or smarter automation can add leverage.',
+        ar: 'اكتشاف فرص تطوير غير مستغلة — مثل توحيد مصدر البيانات أو تحويل المهام المتكررة إلى قوالب وأتمتة عملية.',
+      },
+    ],
+    example: {
+      en: 'Spotting that a team repeatedly formats visual assets by hand across platforms or tracks status in scattered chats—alongside the opportunity to unify inputs into one structured flow.',
+      ar: 'اكتشاف أن الفريق يعيد ضبط التصاميم أو النصوص العربية يدويًا لكل منصة، أو يتابع الطلبات عبر محادثات متفرقة، مع فرصة واضحة لتوحيد المدخلات وتقليل الهدر الزمني.',
     },
     outcome: {
-      en: 'A clearly defined problem and clear priorities.',
-      ar: 'مشكلة محددة وأولويات واضحة.',
+      en: 'Prioritized bottlenecks and improvement opportunities',
+      ar: 'أولويات مرتبة للمشكلات وفرص التحسين',
     },
   },
   {
     number: '03',
     title: {
-      en: 'Design',
+      en: 'Design the Solution',
       ar: 'تصميم الحل',
     },
     description: {
-      en: 'I turn verified needs into a practical solution concept, realistic scope, and execution plan. We decide clearly what requires custom development, system integration, or AI automation.',
-      ar: 'أحوّل الاحتياجات إلى تصور عملي للحل ونطاق مناسب وخطة تنفيذ، وأختار ما يحتاج إلى تطوير أو ربط أو أتمتة. تتضح بذلك معالم الحل وطريقة عمله قبل كتابة الكود.',
+      en: 'I define how the solution will operate in practice—what requires custom development, system integration, or automation, and where AI adds appropriate value—making the concept clear before execution.',
+      ar: 'أحدد كيف سيعمل الحل عمليًا، وما الذي يحتاج إلى بناء أو ربط أو أتمتة، وأين يضيف الذكاء الاصطناعي قيمة مناسبة، مع توضيح التصور قبل بدء التنفيذ.',
+    },
+    highlights: [
+      {
+        en: 'Decide cleanly what belongs in deterministic code/APIs versus custom interfaces or human-in-the-loop AI steps.',
+        ar: 'اختيار ما يُبنى كواجهة مخصصة، وما يُربط مباشرة بين الأنظمة، وأين يضيف الذكاء الاصطناعي قيمة حقيقية تحت إشراف الفريق.',
+      },
+      {
+        en: 'Align on user flows, practical milestones, and realistic boundaries before writing implementation code.',
+        ar: 'توضيح شكل الحل ومسار استخدامه ومراحل تنفيذه قبل الدخول في البرمجة.',
+      },
+    ],
+    example: {
+      en: 'Keeping layout typography, pricing/inventory rules, and publishing logic strictly deterministic in code while reserving AI for drafting, summarizing, or classification with editorial sign-off.',
+      ar: 'إبقاء قواعد التصميم العربي أو حسابات المخزون والطلبات مضبوطة برمجيًا، مع الاستعانة بالذكاء الاصطناعي في الصياغة الأولية أو التلخيص أو التصنيف تحت مراجعة الفريق.',
     },
     outcome: {
-      en: 'A clear, understood solution before execution begins.',
-      ar: 'حل مفهوم قبل بدء التنفيذ.',
+      en: 'A clear, agreed solution blueprint before implementation',
+      ar: 'تصور واضح للحل قبل بدء التنفيذ',
     },
   },
   {
     number: '04',
     title: {
-      en: 'Build & Improve',
+      en: 'Build & Refine',
       ar: 'التنفيذ والتحسين',
     },
     description: {
-      en: 'I build the solution and test it under real operational conditions with your team. After deployment, I follow up on team feedback and refine the workflow as needs evolve.',
-      ar: 'أبني الحل وأختبره في ظروف الاستخدام الفعلية، وأتابع ملاحظات الفريق وتحسينه. يضمن ذلك اعتماد الفريق للحل بسلاسة واستمراره في خدمة العمل.',
+      en: 'I build the solution in phases, test it under real operational use, review feedback with the team, and refine what needs further improvement.',
+      ar: 'أطوّر الحل على مراحل، وأختبره مع الاستخدام الفعلي، وأراجع ملاحظات الفريق، ثم أحسّن ما يحتاج إلى تطوير.',
+    },
+    highlights: [
+      {
+        en: 'Deliver working phases early so teams can test real workflows rather than waiting for a theoretical final handoff.',
+        ar: 'تسليم نسخ عملية متدرجة تتيح التجربة الواقعية مبكرًا بدل انتظار نهاية المشروع لاكتشاف التفاصيل.',
+      },
+      {
+        en: 'Iterate on edge cases, bilingual UX, speed, and operational clarity based on actual day-to-day feedback.',
+        ar: 'متابعة الاستخدام الفعلي ومعالجة الحالات الاستثنائية وتحسين الواجهات والأداء وفق ملاحظات الفريق.',
+      },
+    ],
+    example: {
+      en: 'Rolling out a core workflow first—such as a visual studio, episode hub, or order/inventory panel—observing how the team uses it daily, and refining friction points step by step.',
+      ar: 'إطلاق المسار الأساسي أولًا — مثل أداة إنتاج بطاقات أو منصة حلقات أو لوحة إدارة متجر ومخزون — ومراجعة تجربة الاستخدام اليومي لتحسين التفاصيل باستمرار.',
     },
     outcome: {
-      en: 'A dependable solution ready for use and future growth.',
-      ar: 'حل قابل للاستخدام والتطوير.',
+      en: 'A working release ready for use and iteration',
+      ar: 'نسخة عملية قابلة للاستخدام والتحسين',
     },
   },
 ];

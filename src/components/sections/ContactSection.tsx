@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { z } from 'zod';
@@ -9,7 +9,6 @@ import { activeSocials } from '@/data/socials';
 import { SocialSvg } from '@/components/layout/ProfileCard';
 import { SectionHeading } from '@/components/sections/SectionHeading';
 import { Reveal } from '@/components/motion/Reveal';
-import { cn } from '@/lib/cn';
 
 interface ContactSectionProps {
   asPageHeading?: boolean;
@@ -30,6 +29,10 @@ export function ContactSection({
   const [message, setMessage] = useState('');
   const [websiteHoneypot, setWebsiteHoneypot] = useState('');
   const [startedAt] = useState(() => Date.now());
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const [fieldErrors, setFieldErrors] = useState<{
     name?: string;
@@ -87,6 +90,14 @@ export function ContactSection({
       setFieldErrors(nextErrors);
       setErrorMessage(check.error.issues[0]?.message || t('errors.generic'));
       setStatus('error');
+
+      if (nextErrors.name) {
+        nameRef.current?.focus();
+      } else if (nextErrors.email) {
+        emailRef.current?.focus();
+      } else if (nextErrors.message) {
+        messageRef.current?.focus();
+      }
       return;
     }
 
@@ -182,6 +193,7 @@ export function ContactSection({
                 {t('nameLabel')} <span className="text-[#F46C38]">*</span>
               </label>
               <input
+                ref={nameRef}
                 id="contact-name"
                 name="name"
                 type="text"
@@ -201,7 +213,7 @@ export function ContactSection({
                 }}
                 onBlur={(e) => validateSingleField('name', e.target.value)}
                 placeholder={t('namePlaceholder')}
-                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[48px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               />
               {fieldErrors.name && (
                 <p
@@ -221,6 +233,7 @@ export function ContactSection({
                 {t('emailLabel')} <span className="text-[#F46C38]">*</span>
               </label>
               <input
+                ref={emailRef}
                 id="contact-email"
                 name="email"
                 type="email"
@@ -243,7 +256,7 @@ export function ContactSection({
                 }}
                 onBlur={(e) => validateSingleField('email', e.target.value)}
                 placeholder={t('emailPlaceholder')}
-                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[48px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white placeholder:text-[#998F8F]/60 border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               />
               {fieldErrors.email && (
                 <p
@@ -269,20 +282,17 @@ export function ContactSection({
                 name="inquiryType"
                 value={inquiryType}
                 onChange={(e) => setInquiryType(e.target.value)}
-                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[48px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               >
                 <option value="">{t('inquiryOptions.select')}</option>
                 <option value="Systems analysis & workflow improvement">
                   {t('inquiryOptions.systems')}
                 </option>
-                <option value="Media technology & AI automation">
+                <option value="Media technology & automation">
                   {t('inquiryOptions.media')}
                 </option>
-                <option value="Web or mobile application development">
+                <option value="Solution & application development">
                   {t('inquiryOptions.software')}
-                </option>
-                <option value="Partnership or collaboration">
-                  {t('inquiryOptions.partnership')}
                 </option>
                 <option value="Consultation or inquiry">
                   {t('inquiryOptions.consultation')}
@@ -302,17 +312,21 @@ export function ContactSection({
                 name="budget"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="min-h-[46px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
+                className="min-h-[48px] w-full rounded-[8px] bg-[#2E2B2B] px-[14px] text-[16px] sm:text-[14px] text-white border border-white/[0.06] focus:border-[#F46C38] focus:outline-none transition-colors"
               >
                 <option value="">{t('budgetOptions.select')}</option>
-                <option value="Under $1,000">{t('budgetOptions.under1k')}</option>
-                <option value="$1,000–$3,000">
-                  {t('budgetOptions.1kTo3k')}
+                <option value="Under $3,000">
+                  {t('budgetOptions.under3k')}
                 </option>
                 <option value="$3,000–$5,000">
                   {t('budgetOptions.3kTo5k')}
                 </option>
-                <option value="Over $5,000">{t('budgetOptions.over5k')}</option>
+                <option value="$5,000–$10,000">
+                  {t('budgetOptions.5kTo10k')}
+                </option>
+                <option value="Over $10,000">
+                  {t('budgetOptions.over10k')}
+                </option>
                 <option value="Not sure yet">
                   {t('budgetOptions.notSure')}
                 </option>
@@ -328,6 +342,7 @@ export function ContactSection({
               {t('messageLabel')} <span className="text-[#F46C38]">*</span>
             </label>
             <textarea
+              ref={messageRef}
               id="contact-message"
               name="message"
               rows={5}
@@ -379,7 +394,7 @@ export function ContactSection({
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="flex h-[48px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e35c27] disabled:opacity-60 disabled:hover:translate-y-0 cursor-pointer"
+            className="flex min-h-[48px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e35c27] disabled:opacity-60 disabled:hover:translate-y-0 cursor-pointer"
           >
             {status === 'submitting' ? t('submitting') : t('submit')}
           </button>
@@ -404,54 +419,32 @@ export function ContactSection({
             </h2>
 
             <div className="mt-[16px] grid grid-cols-1 sm:grid-cols-2 gap-[12px]">
-              {activeSocials.map((social) => {
-                const isGithub = social.id === 'github';
-                return (
-                  <a
-                    key={social.id}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      'group flex items-center justify-between gap-3 rounded-[11px] border p-[14px] sm:p-[16px] transition-all duration-200 hover:-translate-y-0.5',
-                      isGithub
-                        ? 'border-[#F46C38]/40 bg-[#F46C38]/[0.07] hover:border-[#F46C38] hover:bg-[#F46C38]/[0.12]'
-                        : 'border-white/[0.07] bg-[#1C1918] hover:border-white/[0.18] hover:bg-[#221E1D]'
-                    )}
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span
-                        className={cn(
-                          'flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[8px]',
-                          isGithub
-                            ? 'bg-[#F46C38] text-white'
-                            : 'bg-white/[0.05] text-[#F46C38]'
-                        )}
-                      >
-                        <SocialSvg
-                          id={social.id}
-                          className="h-[18px] w-[18px]"
-                        />
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block font-display text-[15px] font-semibold text-white">
-                          {social.label}
-                        </span>
-                        {isGithub && (
-                          <span className="block text-[11px] font-medium text-[#F46C38]">
-                            {tSection('githubBadge')}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+              {activeSocials.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between gap-3 rounded-[11px] border border-white/[0.07] bg-[#1C1918] p-[14px] sm:p-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/50 hover:bg-[#221E1D] focus-visible:-translate-y-0.5 focus-visible:border-[#F46C38]/50 focus-visible:bg-[#221E1D]"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[8px] bg-white/[0.05] text-[#B8B0B0] transition-colors duration-200 group-hover:bg-[#F46C38]/15 group-hover:text-[#F46C38] group-focus-visible:bg-[#F46C38]/15 group-focus-visible:text-[#F46C38]">
+                      <SocialSvg
+                        id={social.id}
+                        className="h-[18px] w-[18px]"
+                      />
+                    </span>
+                    <span className="font-display text-[15px] font-semibold text-white transition-colors duration-200 group-hover:text-[#F46C38] group-focus-visible:text-[#F46C38]">
+                      {social.label}
+                    </span>
+                  </div>
 
-                    <ArrowUpRight
-                      aria-hidden="true"
-                      className="h-[16px] w-[16px] shrink-0 text-[#998F8F] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#F46C38] rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
-                    />
-                  </a>
-                );
-              })}
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="h-[16px] w-[16px] shrink-0 text-[#998F8F] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#F46C38] group-focus-visible:text-[#F46C38] rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </Reveal>

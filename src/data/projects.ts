@@ -48,7 +48,7 @@ export const projects: Project[] = [
     },
     title: {
       en: 'ID8 Media',
-      ar: 'ID8 Media | آي دي إيت ميديا',
+      ar: 'ID8 Media',
     },
     category: {
       en: 'Broadcast & Newsroom Web Applications',

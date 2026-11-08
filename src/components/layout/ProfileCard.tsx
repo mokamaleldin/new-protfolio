@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useId } from 'react';
 import Image from 'next/image';
-import { Flame } from 'lucide-react';
 import { siteConfig } from '@/data/site-config';
 import { activeSocials, type SocialLink } from '@/data/socials';
 import type { Locale } from '@/i18n/routing';
@@ -91,6 +90,61 @@ export function SocialSvg({
   }
 }
 
+/**
+ * Brand M monogram mark matching `/src/app/icon.svg` and `/src/app/apple-icon.tsx`.
+ */
+function BrandMonogramBadge() {
+  const uid = useId();
+  const bgId = `mk-card-bg-${uid}`;
+  const clipId = `mk-card-clip-${uid}`;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="mt-[12px] flex h-[32px] w-[32px] items-center justify-center rounded-[8px] shadow-[0_4px_12px_rgba(244,108,56,0.35)]"
+    >
+      <svg
+        viewBox="0 0 64 64"
+        fill="none"
+        className="h-full w-full"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient
+            id={bgId}
+            x1="0"
+            y1="0"
+            x2="64"
+            y2="64"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor="#FF7844" />
+            <stop offset="100%" stopColor="#F46C38" />
+          </linearGradient>
+          <clipPath id={clipId}>
+            <rect width="64" height="64" rx="15" />
+          </clipPath>
+        </defs>
+        <g clipPath={`url(#${clipId})`}>
+          <rect width="64" height="64" fill={`url(#${bgId})`} />
+          <path
+            d="M-6 18C10 34 34 30 44 -4"
+            stroke="#CA592E"
+            strokeWidth="2.5"
+            strokeDasharray="4 4.5"
+            strokeLinecap="round"
+            opacity="0.45"
+          />
+          <path
+            d="M12.5 45.5V18.5H20.8L32 34.2L43.2 18.5H51.5V45.5H43.8V30.1L33.6 44.5H30.4L20.2 30.1V45.5H12.5Z"
+            fill="#151312"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 export function ProfileCard({ locale }: ProfileCardProps) {
   const name = siteConfig.owner.name[locale];
   const bio = siteConfig.owner.profileCardBio[locale];
@@ -122,20 +176,15 @@ export function ProfileCard({ locale }: ProfileCardProps) {
           {name}
         </h2>
 
-        {/* Signature orange badge icon */}
-        <div
-          aria-hidden="true"
-          className="mt-[12px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#F46C38] text-white shadow-[0_4px_12px_rgba(244,108,56,0.4)]"
-        >
-          <Flame className="h-[14px] w-[14px] fill-current" strokeWidth={2} />
-        </div>
+        {/* Signature M monogram badge matching favicon identity */}
+        <BrandMonogramBadge />
 
-        {/* Short bio */}
-        <p className="mt-[14px] max-w-[250px] text-[14px] font-medium leading-[1.48] text-[#555659]">
+        {/* Short specialization bio */}
+        <p className="mt-[12px] max-w-[260px] text-[14px] font-medium leading-[1.48] text-[#555659]">
           {bio}
         </p>
 
-        {/* Social Media Links with visible names & icons */}
+        {/* Uniform Social Media Links with icons & labels */}
         <ul className="mt-[18px] flex flex-wrap items-center justify-center gap-2">
           {activeSocials.map((social) => (
             <li key={social.id}>
@@ -143,9 +192,9 @@ export function ProfileCard({ locale }: ProfileCardProps) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-[32px] items-center gap-1.5 rounded-[8px] border border-[#121212]/10 bg-[#121212]/[0.03] px-2.5 text-[12px] font-medium text-[#121212] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/40 hover:bg-[#F46C38]/10 hover:text-[#CA592E]"
+                className="group inline-flex h-[34px] items-center gap-1.5 rounded-[8px] border border-[#121212]/10 bg-[#121212]/[0.03] px-2.5 text-[12px] font-medium text-[#121212] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/40 hover:bg-[#F46C38]/10 hover:text-[#CA592E] focus-visible:border-[#F46C38]/40 focus-visible:bg-[#F46C38]/10 focus-visible:text-[#CA592E]"
               >
-                <span className="text-[#F46C38]">
+                <span className="text-[#555659] transition-colors duration-200 group-hover:text-[#F46C38] group-focus-visible:text-[#F46C38]">
                   <SocialSvg id={social.id} className="h-[14px] w-[14px]" />
                 </span>
                 <span>{social.label}</span>

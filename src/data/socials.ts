@@ -3,7 +3,6 @@ export interface SocialLink {
   label: string;
   href?: string;
   enabled: boolean;
-  featuredOnContact?: boolean;
 }
 
 export const socials: SocialLink[] = [
@@ -18,7 +17,6 @@ export const socials: SocialLink[] = [
     label: 'GitHub',
     href: 'https://github.com/mokamaleldin',
     enabled: true,
-    featuredOnContact: true,
   },
   {
     id: 'youtube',

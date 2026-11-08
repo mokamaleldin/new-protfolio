@@ -26,7 +26,7 @@ export function RecommendationsPreview({
       </Reveal>
 
       <div className="mt-[28px] flex flex-col gap-[16px]">
-        {featuredRecommendations.slice(0, 2).map((rec, idx) => (
+        {featuredRecommendations.slice(0, 3).map((rec, idx) => (
           <Reveal key={rec.id} delay={idx * 0.05}>
             <RecommendationCard recommendation={rec} locale={locale} />
           </Reveal>

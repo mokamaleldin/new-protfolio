@@ -25,6 +25,7 @@
 }
 
 :root {
+  interpolate-size: allow-keywords;
   --bg: #151312;
   --orange: #F46C38;
   --orange-dark: #CA592E;
@@ -69,12 +70,51 @@ html[lang="ar"] .font-display {
   line-height: 1.22;
 }
 
+/* Intrinsic-size disclosure panel animation with universal grid fallback */
+.approach-stage-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+}
+
+.approach-stage-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.approach-stage-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .approach-stage-panel {
+    display: block;
+    block-size: 0;
+    transition:
+      block-size 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.24s ease;
+  }
+
+  .approach-stage-panel[data-open="true"] {
+    block-size: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0s !important;
     transform: none !important;
+  }
+
+  .approach-stage-panel {
+    transition: none !important;
   }
 }
 

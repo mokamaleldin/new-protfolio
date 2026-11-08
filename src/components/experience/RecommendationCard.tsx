@@ -23,19 +23,13 @@ export function RecommendationCard({
 
   return (
     <article className="rounded-[12px] border border-white/[0.06] bg-[#1C1918] p-[20px] transition-colors duration-200 hover:border-white/[0.12]">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
-          <h3 className="font-display text-[17px] font-semibold text-white">
-            {recommendation.authorName[locale]}
-          </h3>
-          <p className="mt-0.5 text-[12px] text-[#998F8F]">
-            {recommendation.role[locale]}
-          </p>
-        </div>
-
-        <span className="rounded-[6px] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-[#F46C38]/90">
-          {recommendation.relationship[locale]}
-        </span>
+      <div>
+        <h3 className="font-display text-[17px] font-semibold text-white">
+          {recommendation.authorName[locale]}
+        </h3>
+        <p className="mt-1 text-[12px] sm:text-[13px] font-medium text-[#998F8F]">
+          {recommendation.role[locale]}
+        </p>
       </div>
 
       <blockquote

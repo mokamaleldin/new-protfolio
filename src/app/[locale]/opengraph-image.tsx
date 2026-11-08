@@ -45,7 +45,7 @@ export default function OpenGraphImage() {
               letterSpacing: '0.02em',
             }}
           >
-            MOHAMED KAMALELDIN · محمد كمال الدين
+            MOHAMED KAMALELDIN
           </span>
         </div>
 
@@ -70,7 +70,7 @@ export default function OpenGraphImage() {
               color: '#F46C38',
             }}
           >
-            AI AUTOMATION ENGINEER
+            AUTOMATION ENGINEER
           </span>
         </div>
 
@@ -87,7 +87,7 @@ export default function OpenGraphImage() {
               color: '#998F8F',
             }}
           >
-            Systems Analysis · Solution Design · AI Workflow Automation
+            Media Technology & AI Automation Engineer
           </span>
           <div
             style={{
