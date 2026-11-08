@@ -1,61 +1,27 @@
 @import "tailwindcss";
 
-@theme {
-  --breakpoint-sm: 430px;
-  --breakpoint-md: 810px;
-  --breakpoint-lg: 1080px;
-  --breakpoint-xl: 1440px;
+@layer base {
+  :root {
+    --bg-dark: #121212;
+    --text-primary: #FFFFFF;
+    --text-muted: #998F8F;
+    --brand-orange: #F46C38;
+    --brand-lime: #C5FF41;
+  }
 
-  --color-sawad-bg: #151312;
-  --color-sawad-nav: #1F1C1B;
-  --color-sawad-orange: #F46C38;
-  --color-sawad-orange-dark: #CA592E;
-  --color-sawad-lime: #C5FF41;
-  --color-sawad-muted: #998F8F;
-  --color-sawad-heading-muted: #353334;
-  --color-sawad-input: #2E2B2B;
-  --color-sawad-card: #FFFFFF;
-  --color-sawad-card-text: #121212;
-  --color-sawad-card-sub: #6A6B6E;
-
-  --font-en-display: var(--font-poppins), sans-serif;
-  --font-en-body: var(--font-poppins), sans-serif;
-  --font-ar-display: var(--font-alexandria), sans-serif;
-  --font-ar-body: var(--font-ibm-arabic), sans-serif;
-}
-
-:root {
-  interpolate-size: allow-keywords;
-  --bg: #151312;
-  --orange: #F46C38;
-  --orange-dark: #CA592E;
-  --lime: #C5FF41;
-  --muted-text: #998F8F;
-  --muted-heading: #353334;
-  --nav-bg: rgba(255, 255, 255, 0.05);
-  --input-bg: #2E2B2B;
-}
-
-html {
-  background-color: #151312;
-  color: #FFFFFF;
-  scroll-behavior: smooth;
-  @media (prefers-reduced-motion: reduce) {
-    scroll-behavior: auto;
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
   }
 }
 
-body {
-  background-color: #151312;
-  color: #FFFFFF;
-  font-family: var(--font-poppins), sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+/* Custom font utilities for Next.js variable fonts */
+.font-sans {
+  font-family: var(--font-inter), sans-serif;
 }
 
-html[lang="ar"] body {
-  font-family: var(--font-ibm-arabic), var(--font-alexandria), sans-serif;
+html[lang="ar"] .font-sans {
+  font-family: var(--font-alexandria), sans-serif;
 }
 
 .font-display {
@@ -70,13 +36,15 @@ html[lang="ar"] .font-display {
   line-height: 1.22;
 }
 
-/* Animated orbital dashes and micro-interactions */
+/* =========================================================================
+   1. Orbital & Profile Card Decorative Path Animations
+   ========================================================================= */
 @keyframes orbit-dash-flow {
   from {
     stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: -52px;
+    stroke-dashoffset: -44px;
   }
 }
 
@@ -85,7 +53,7 @@ html[lang="ar"] .font-display {
     stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: 52px;
+    stroke-dashoffset: 44px;
   }
 }
 
@@ -94,7 +62,7 @@ html[lang="ar"] .font-display {
     transform: translate(0, 0) rotate(0deg);
   }
   50% {
-    transform: translate(2px, -3px) rotate(0.6deg);
+    transform: translate(3px, -2px) rotate(0.8deg);
   }
 }
 
@@ -105,6 +73,20 @@ html[lang="ar"] .font-display {
   50% {
     transform: translate(-3px, 2px) rotate(-0.5deg);
   }
+}
+
+.animate-orbit-top {
+  transform-origin: 20% 10%;
+  animation:
+    orbit-dash-flow 11s linear infinite,
+    orbit-drift-top 7s ease-in-out infinite;
+}
+
+.animate-orbit-bottom {
+  transform-origin: 10% 80%;
+  animation:
+    orbit-dash-flow-rev 12s linear infinite,
+    orbit-drift-bottom 8s ease-in-out infinite;
 }
 
 @keyframes monogram-float {
@@ -118,43 +100,381 @@ html[lang="ar"] .font-display {
   }
 }
 
-@keyframes name-shimmer {
-  0% {
-    background-position: 200% 0;
+.animate-monogram-badge {
+  animation: monogram-float 3.6s ease-in-out infinite;
+}
+
+/* =========================================================================
+   2. Social Icons Micro-Animations (Internal elements only)
+   ========================================================================= */
+
+/* LinkedIn: 'i' dot hops up with calm pause */
+@keyframes linkedin-dot-hop {
+  0%, 68%, 100% {
+    transform: translateY(0);
   }
-  100% {
-    background-position: -200% 0;
+  78% {
+    transform: translateY(-2.4px);
+  }
+  86% {
+    transform: translateY(0.4px);
+  }
+  92% {
+    transform: translateY(0);
   }
 }
 
-/* Feature card wave and signal animations */
-@keyframes wave-ripple-slow {
+.social-anim-linkedin-dot {
+  transform-origin: 4px 4px;
+  animation: linkedin-dot-hop 4.4s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.group:hover .social-anim-linkedin-dot,
+.group:focus-visible .social-anim-linkedin-dot {
+  transform: translateY(-3.5px);
+  animation-play-state: paused;
+}
+
+.group:active .social-anim-linkedin-dot {
+  transform: translateY(-1px);
+}
+
+/* GitHub: gentle tail sway and subtle head nod */
+@keyframes github-tail-sway {
+  0%, 65%, 100% {
+    transform: rotate(0deg);
+  }
+  74% {
+    transform: rotate(-9deg);
+  }
+  82% {
+    transform: rotate(7deg);
+  }
+  90% {
+    transform: rotate(-4deg);
+  }
+  95% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes github-tail-active {
   0%, 100% {
-    transform: translate(0, 0);
+    transform: rotate(-12deg);
   }
   50% {
-    transform: translate(-10px, 5px);
+    transform: rotate(10deg);
+  }
+}
+
+.social-anim-github-tail {
+  transform-origin: 9px 18px;
+  animation: github-tail-sway 4.6s ease-in-out infinite;
+  transition: transform 0.2s ease-out;
+}
+
+.social-anim-github-body {
+  transform-origin: 12px 10px;
+  transition: transform 0.25s ease-out;
+}
+
+.group:hover .social-anim-github-tail,
+.group:focus-visible .social-anim-github-tail {
+  animation: github-tail-active 0.5s ease-in-out infinite;
+}
+
+.group:hover .social-anim-github-body,
+.group:focus-visible .social-anim-github-body {
+  transform: rotate(-2.5deg);
+}
+
+/* YouTube: play triangle glides smoothly left and right inside frame */
+@keyframes youtube-play-glide {
+  0%, 68%, 100% {
+    transform: translateX(0);
+  }
+  78% {
+    transform: translateX(1.4px);
+  }
+  88% {
+    transform: translateX(-0.6px);
+  }
+  94% {
+    transform: translateX(0);
+  }
+}
+
+.social-anim-youtube-play {
+  transform-origin: 12px 12px;
+  animation: youtube-play-glide 4.2s ease-in-out infinite;
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.group:hover .social-anim-youtube-play,
+.group:focus-visible .social-anim-youtube-play {
+  transform: translateX(2.2px) scale(1.15);
+  animation-play-state: paused;
+}
+
+.group:active .social-anim-youtube-play {
+  transform: translateX(0.5px) scale(0.95);
+}
+
+/* Instagram: lens aperture breathes gently; snaps on hover */
+@keyframes instagram-lens-breathe {
+  0%, 68%, 100% {
+    transform: scale(1);
+  }
+  78% {
+    transform: scale(1.14);
+  }
+  86% {
+    transform: scale(0.96);
+  }
+  92% {
+    transform: scale(1);
+  }
+}
+
+.social-anim-instagram-lens {
+  transform-origin: 12px 12px;
+  animation: instagram-lens-breathe 4.5s ease-in-out infinite;
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-anim-instagram-flash {
+  transform-origin: 17.5px 6.5px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.group:hover .social-anim-instagram-lens,
+.group:focus-visible .social-anim-instagram-lens {
+  transform: scale(1.22);
+  animation-play-state: paused;
+}
+
+.group:hover .social-anim-instagram-flash,
+.group:focus-visible .social-anim-instagram-flash {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 3px #F46C38);
+}
+
+/* =========================================================================
+   3. Specialization Feature Cards (Card A & Card B)
+   ========================================================================= */
+
+/* Card A background wave lines */
+@keyframes wave-ripple-slow {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-18px, 9px) rotate(-1.8deg);
   }
 }
 
 @keyframes wave-ripple-fast {
   0%, 100% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) rotate(0deg);
   }
   50% {
-    transform: translate(12px, -6px);
+    transform: translate(20px, -11px) rotate(2.2deg);
   }
 }
 
+.animate-wave-card-1 {
+  animation: wave-ripple-slow 7.5s ease-in-out infinite;
+}
+
+.animate-wave-card-2 {
+  animation: wave-ripple-fast 6s ease-in-out infinite;
+}
+
+/* Card A Layers Icon Micro-Animation */
+@keyframes layer-top-split {
+  0%, 55%, 100% {
+    transform: translateY(0);
+  }
+  68%, 84% {
+    transform: translateY(-3.6px);
+  }
+  92% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes layer-bot-split {
+  0%, 55%, 100% {
+    transform: translateY(0);
+  }
+  68%, 84% {
+    transform: translateY(3.6px);
+  }
+  92% {
+    transform: translateY(0);
+  }
+}
+
+.layers-top {
+  transform-origin: 12px 7px;
+  animation: layer-top-split 4.6s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.layers-mid {
+  transform-origin: 12px 14px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.layers-bot {
+  transform-origin: 12px 19px;
+  animation: layer-bot-split 4.6s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.group:hover .layers-top {
+  transform: translateY(-4.2px);
+  animation-play-state: paused;
+}
+
+.group:hover .layers-bot {
+  transform: translateY(4.2px);
+  animation-play-state: paused;
+}
+
+/* Card B Background Polyline */
 @keyframes polyline-signal-flow {
   from {
     stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: -48px;
+    stroke-dashoffset: -44px;
   }
 }
 
+.animate-signal-card {
+  stroke-dasharray: 14 10;
+  animation: polyline-signal-flow 3.5s linear infinite;
+}
+
+/* =========================================================================
+   4. Project Cover Fallback Graphics Animations
+   ========================================================================= */
+
+/* ID8 Media: Broadcast radar sweep & ripple */
+@keyframes id8-radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.id8-sweep-anim {
+  transform-origin: 80px 88px;
+  animation: id8-radar-sweep 4s linear infinite;
+}
+
+/* DUTHUR: 360-degree T-shirt spin with calm rest period */
+@keyframes duthur-shirt-spin-360 {
+  0%, 25% {
+    transform: perspective(260px) rotateY(0deg);
+  }
+  60%, 75% {
+    transform: perspective(260px) rotateY(360deg);
+  }
+  100% {
+    transform: perspective(260px) rotateY(360deg);
+  }
+}
+
+.duthur-shirt-anim {
+  transform-origin: 100px 103px;
+  transform-box: fill-box;
+  animation: duthur-shirt-spin-360 5.5s ease-in-out infinite;
+}
+
+/* Kashida: organic curve wave flex */
+@keyframes kashida-wave-harmonic {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.18);
+  }
+}
+
+.kashida-wave-anim {
+  transform-origin: 204px 115px;
+  animation: kashida-wave-harmonic 3.2s ease-in-out infinite;
+}
+
+/* =========================================================================
+   5. Button & Arrow Micro-Interactions (Tactile & Springy)
+   ========================================================================= */
+.btn-press {
+  position: relative;
+  transition:
+    transform 0.16s cubic-bezier(0.2, 0, 0, 1),
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-press:hover {
+  transform: translateY(-1.5px);
+}
+
+.btn-press:active {
+  transform: translateY(0) scale(0.96) !important;
+}
+
+.btn-press-primary {
+  box-shadow: 0 4px 14px rgba(244, 108, 56, 0.28);
+}
+
+.btn-press-primary:hover {
+  box-shadow: 0 6px 20px rgba(244, 108, 56, 0.42);
+}
+
+.btn-press-primary:active {
+  box-shadow: 0 2px 8px rgba(244, 108, 56, 0.2);
+}
+
+/* =========================================================================
+   6. How I Work / Process Strip Disclosure & Connecting Line
+   ========================================================================= */
+.approach-stage-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.approach-stage-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.approach-stage-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.approach-stage-panel[data-open="true"] .approach-stage-inner {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
+/* Page quick enter transition */
 @keyframes page-quick-enter {
   from {
     opacity: 0.88;
@@ -170,73 +490,37 @@ html[lang="ar"] .font-display {
   animation: page-quick-enter 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-orbit-top {
-  transform-origin: 20% 10%;
-  animation:
-    orbit-dash-flow 10s linear infinite,
-    orbit-drift-top 7s ease-in-out infinite;
-}
-
-.animate-orbit-bottom {
-  transform-origin: 10% 80%;
-  animation:
-    orbit-dash-flow-rev 12s linear infinite,
-    orbit-drift-bottom 8s ease-in-out infinite;
-}
-
-.animate-monogram-badge {
-  animation: monogram-float 3.6s ease-in-out infinite;
-}
-
-.animate-name-shimmer {
-  animation: name-shimmer 2.2s ease-in-out infinite;
-}
-
-.animate-wave-card-1 {
-  animation: wave-ripple-slow 8s ease-in-out infinite;
-}
-
-.animate-wave-card-2 {
-  animation: wave-ripple-fast 6.5s ease-in-out infinite;
-}
-
-.animate-signal-card {
-  stroke-dasharray: 14 10;
-  animation: polyline-signal-flow 3.5s linear infinite;
-}
-
-/* Intrinsic-size disclosure panel animation with universal grid fallback */
-.approach-stage-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.approach-stage-panel[data-open="true"] {
-  grid-template-rows: 1fr;
-}
-
-.approach-stage-inner {
-  min-height: 0;
-  overflow: hidden;
-  transition:
-    opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-.approach-stage-panel[data-open="true"] .approach-stage-inner {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+/* =========================================================================
+   8. Reduced Motion & Accessibility Overrides
+   ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    transition-duration: 0s !important;
+    transition-duration: 0.001s !important;
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .animate-orbit-top,
+  .animate-orbit-bottom,
+  .animate-monogram-badge,
+  .social-anim-linkedin-dot,
+  .social-anim-github-tail,
+  .social-anim-github-body,
+  .social-anim-youtube-play,
+  .social-anim-instagram-lens,
+  .social-anim-instagram-flash,
+  .animate-wave-card-1,
+  .animate-wave-card-2,
+  .layers-top,
+  .layers-bot,
+  .animate-signal-card,
+  .id8-sweep-anim,
+  .duthur-shirt-anim,
+  .kashida-wave-anim {
     animation: none !important;
+    transform: none !important;
   }
 
   .approach-stage-panel {

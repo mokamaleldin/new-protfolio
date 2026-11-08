@@ -43,6 +43,7 @@ export function ContactSection({
     'idle'
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [mailtoLink, setMailtoLink] = useState<string | null>(null);
 
   const clientSchema = z.object({
     name: z.string().trim().min(2, t('errors.nameRequired')),
@@ -104,42 +105,48 @@ export function ContactSection({
     setFieldErrors({});
     setStatus('submitting');
 
+    // Build the mailto link with all message details
+    const recipient = siteConfig.email;
+    const subject = encodeURIComponent(
+      `[Portfolio Inquiry] ${inquiryType || 'General Inquiry'} — from ${name}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Inquiry Type: ${inquiryType || 'Not specified'}`,
+        `Estimated Budget: ${budget || 'Not specified'}`,
+        '',
+        'Message:',
+        message,
+      ].join('\n')
+    );
+    const url = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    setMailtoLink(url);
+
+    // Trigger direct mail client opening so user/visitor just clicks send
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          inquiryType: inquiryType || 'Consultation or inquiry',
-          budget,
-          message,
-          websiteHoneypot,
-          startedAt,
-        }),
-      });
-
-      const json = await res.json().catch(() => null);
-      if (
-        !res.ok ||
-        !json?.ok ||
-        (json.mode !== 'sent' && json.mode !== 'honeypot')
-      ) {
-        setErrorMessage(t('errors.generic'));
-        setStatus('error');
-        return;
-      }
-
-      setStatus('sent');
-      setName('');
-      setEmail('');
-      setInquiryType('');
-      setBudget('');
-      setMessage('');
+      window.location.href = url;
     } catch {
-      setErrorMessage(t('errors.generic'));
-      setStatus('error');
+      // safe fallback
     }
+
+    // Also attempt backend logging in background if Resend is configured
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        inquiryType: inquiryType || 'Consultation or inquiry',
+        budget,
+        message,
+        websiteHoneypot,
+        startedAt,
+      }),
+    }).catch(() => {});
+
+    setStatus('sent');
   }
 
   return (
@@ -382,19 +389,29 @@ export function ContactSection({
           )}
 
           {status === 'sent' && (
-            <p
+            <div
               role="status"
               aria-live="polite"
-              className="rounded-[8px] border border-[#C5FF41]/40 bg-[#C5FF41]/10 px-4 py-3 text-[13px] sm:text-[14px] text-[#C5FF41]"
+              className="rounded-[8px] border border-[#C5FF41]/40 bg-[#C5FF41]/10 px-4 py-3.5 text-[13px] sm:text-[14px] text-[#C5FF41] space-y-1.5"
             >
-              {t('successSent')}
-            </p>
+              <p className="font-medium text-white">{t('successSent')}</p>
+              {mailtoLink && (
+                <p>
+                  <a
+                    href={mailtoLink}
+                    className="inline-flex items-center gap-1 font-semibold text-[#F46C38] underline underline-offset-4 hover:text-white transition-colors"
+                  >
+                    <span>{t('openEmailAppAgain')}</span>
+                  </a>
+                </p>
+              )}
+            </div>
           )}
 
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="flex min-h-[48px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e35c27] disabled:opacity-60 disabled:hover:translate-y-0 cursor-pointer"
+            className="btn-press btn-press-primary flex min-h-[48px] w-full items-center justify-center rounded-[8px] bg-[#F46C38] px-6 text-[14px] font-semibold text-white transition-all duration-200 hover:bg-[#e35c27] disabled:opacity-60 disabled:pointer-events-none cursor-pointer"
           >
             {status === 'submitting' ? t('submitting') : t('submit')}
           </button>
@@ -425,7 +442,7 @@ export function ContactSection({
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-3 rounded-[11px] border border-white/[0.07] bg-[#1C1918] p-[14px] sm:p-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/50 hover:bg-[#221E1D] focus-visible:-translate-y-0.5 focus-visible:border-[#F46C38]/50 focus-visible:bg-[#221E1D]"
+                  className="group btn-press flex items-center justify-between gap-3 rounded-[11px] border border-white/[0.07] bg-[#1C1918] p-[14px] sm:p-[16px] hover:border-[#F46C38]/50 hover:bg-[#221E1D] focus-visible:border-[#F46C38]/50 focus-visible:bg-[#221E1D]"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[8px] bg-white/[0.05] text-[#B8B0B0] transition-colors duration-200 group-hover:bg-[#F46C38]/15 group-hover:text-[#F46C38] group-focus-visible:bg-[#F46C38]/15 group-focus-visible:text-[#F46C38]">

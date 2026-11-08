@@ -114,7 +114,8 @@
     "submit": "Send Message",
     "submitting": "Sending...",
     "directEmailPrefix": "Or email directly at",
-    "successSent": "Thank you. Your message has been sent. I'll get back to you as soon as possible.",
+    "successSent": "Your message is ready and opened in your email app. Simply review and click 'Send' from there.",
+    "openEmailAppAgain": "Click here to open your email app if it didn't open automatically",
     "errors": {
       "nameRequired": "Please enter your name (at least 2 characters).",
       "emailInvalid": "Please enter a valid email address.",

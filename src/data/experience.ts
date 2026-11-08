@@ -217,6 +217,47 @@ export const experienceEntries: ExperienceEntry[] = [
     ],
     featuredOnHome: false,
   },
+  {
+    id: 'freelance',
+    order: 5,
+    company: {
+      en: 'Freelance Work',
+      ar: 'عمل حر',
+    },
+    location: {
+      en: 'Remote',
+      ar: 'عن بُعد',
+    },
+    workMode: {
+      en: 'Remote',
+      ar: 'عن بُعد',
+    },
+    roles: [
+      {
+        title: {
+          en: 'Junior Frontend Developer',
+          ar: 'مطور واجهات أمامية (Junior)',
+        },
+        start: '2023-04',
+        end: '2023-07',
+      },
+    ],
+    summary: {
+      en: 'Developed responsive client interfaces and a web scraping application using Next.js, JavaScript, Tailwind CSS, and Framer Motion.',
+      ar: 'تطوير واجهات ويب متجاوبة وتطبيق لاستخلاص البيانات (Web Scraping) باستخدام Next.js وJavaScript وTailwind CSS وFramer Motion.',
+    },
+    responsibilities: [
+      {
+        en: 'Built responsive client interfaces and custom frontend layouts with Next.js and Tailwind CSS.',
+        ar: 'تطوير واجهات متجاوبة وتنسيقات ويب مخصصة باستخدام Next.js وTailwind CSS.',
+      },
+      {
+        en: 'Engineered an automated web scraping application to collect and structure online data.',
+        ar: 'تطوير تطبيق لأتمتة جمع واستخلاص البيانات وتنظيمها للاستخدام.',
+      },
+    ],
+    featuredOnHome: false,
+  },
 ];
 
 export const homeExperienceEntries = experienceEntries.filter(

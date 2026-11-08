@@ -30,16 +30,15 @@ export function SiteShell({ locale, children }: SiteShellProps) {
 
       <div className="mx-auto max-w-[1120px] px-[20px] sm:px-[28px] pt-[84px] sm:pt-[96px] md:pt-[116px] pb-[40px]">
         <div className="flex flex-col md:flex-row md:items-start gap-0 md:gap-[48px] lg:gap-[72px]">
-          {/* Profile card: On mobile, visible on Home ONLY; on desktop, stays visible on all pages */}
-          <div
+          {/* Profile card: On mobile, visible on Home ONLY; on desktop, stays visible and sticky across all pages */}
+          <ProfileCard
+            locale={locale}
             className={
               isHome
-                ? 'block mb-[32px] md:mb-0 shrink-0 w-full md:w-auto'
-                : 'hidden md:block shrink-0 w-full md:w-auto'
+                ? 'block mb-[32px] md:mb-0'
+                : 'hidden md:block'
             }
-          >
-            <ProfileCard locale={locale} />
-          </div>
+          />
 
           <main className="min-w-0 flex-1 max-w-[696px]">
             {children}

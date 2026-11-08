@@ -34,10 +34,10 @@ export function RecentProjects({ locale }: RecentProjectsProps) {
       <Reveal delay={0.15} className="mt-[22px]">
         <Link
           href="/projects"
-          className="group inline-flex items-center gap-2 text-[14px] font-medium text-[#F46C38] transition-colors duration-200 hover:text-white"
+          className="group btn-press inline-flex items-center gap-2 text-[14px] font-medium text-[#F46C38] transition-colors duration-200 hover:text-white"
         >
           <span>{t('viewAll')}</span>
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-1.5" />
         </Link>
       </Reveal>
     </section>

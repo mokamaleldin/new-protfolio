@@ -34,10 +34,10 @@ export function ContactCtaBanner({
 
         <Link
           href="/contact"
-          className="group inline-flex h-[44px] shrink-0 items-center justify-center gap-2 rounded-[9px] bg-[#F46C38] px-5 text-[14px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e35c27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F46C38]"
+          className="group btn-press btn-press-primary inline-flex h-[44px] shrink-0 items-center justify-center gap-2 rounded-[9px] bg-[#F46C38] px-5 text-[14px] font-semibold text-white transition-all duration-200 hover:bg-[#e35c27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F46C38]"
         >
           <span>{buttonText || t('button')}</span>
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-1.5" />
         </Link>
       </section>
     </Reveal>

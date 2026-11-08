@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useId } from 'react';
+import { cn } from '@/lib/cn';
 import { siteConfig } from '@/data/site-config';
 import { activeSocials, type SocialLink } from '@/data/socials';
 import type { Locale } from '@/i18n/routing';
@@ -9,8 +10,18 @@ import { ProfilePortrait } from './ProfilePortrait';
 
 interface ProfileCardProps {
   locale: Locale;
+  className?: string;
 }
 
+/**
+ * Animated Social SVGs with internal micro-interactions:
+ * - LinkedIn: 'i' dot hops up and settles back.
+ * - GitHub: tail sways playfully while preserving the exact silhouette.
+ * - YouTube: play triangle moves gently left & right within the frame.
+ * - Instagram: camera lens aperture breathes and snaps.
+ * Pure visual CSS animations with pointer-events-none on SVGs to ensure
+ * instantaneous first-touch link responsiveness on mobile devices.
+ */
 export function SocialSvg({
   id,
   className = 'h-[16px] w-[16px]',
@@ -29,11 +40,11 @@ export function SocialSvg({
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={className}
+          className={`${className} pointer-events-none select-none`}
         >
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
           <rect width="4" height="12" x="2" y="9" />
-          <circle cx="4" cy="4" r="2" />
+          <circle cx="4" cy="4" r="2" className="social-anim-linkedin-dot" />
         </svg>
       );
     case 'github':
@@ -46,10 +57,13 @@ export function SocialSvg({
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={className}
+          className={`${className} pointer-events-none select-none`}
         >
-          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-          <path d="M9 18c-4.51 2-5-2-7-2" />
+          <path
+            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+            className="social-anim-github-body"
+          />
+          <path d="M9 18c-4.51 2-5-2-7-2" className="social-anim-github-tail" />
         </svg>
       );
     case 'youtube':
@@ -62,10 +76,10 @@ export function SocialSvg({
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={className}
+          className={`${className} pointer-events-none select-none`}
         >
           <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-          <path d="m10 15 5-3-5-3z" />
+          <path d="m10 15 5-3-5-3z" fill="currentColor" className="social-anim-youtube-play" />
         </svg>
       );
     case 'instagram':
@@ -78,11 +92,11 @@ export function SocialSvg({
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={className}
+          className={`${className} pointer-events-none select-none`}
         >
           <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" className="social-anim-instagram-lens" />
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" className="social-anim-instagram-flash" />
         </svg>
       );
     default:
@@ -145,16 +159,19 @@ function BrandMonogramBadge() {
   );
 }
 
-export function ProfileCard({ locale }: ProfileCardProps) {
+export function ProfileCard({ locale, className }: ProfileCardProps) {
   const name = siteConfig.owner.name[locale];
   const bio = siteConfig.owner.profileCardBio[locale];
 
   return (
     <aside
       aria-label={name}
-      className="relative w-full md:w-[300px] lg:w-[320px] shrink-0 rounded-[20px] bg-white px-[20px] pt-[28px] pb-[22px] text-[#121212] shadow-[0_20px_50px_rgba(0,0,0,0.4)] md:sticky md:top-[84px]"
+      className={cn(
+        'relative w-full md:w-[300px] lg:w-[320px] shrink-0 rounded-[20px] bg-white px-[20px] pt-[28px] pb-[22px] text-[#121212] shadow-[0_20px_50px_rgba(0,0,0,0.4)] md:sticky md:top-[84px] md:self-start overflow-hidden',
+        className
+      )}
     >
-      {/* Static dashed orange orbital decoration */}
+      {/* Dashed orange orbital decoration strictly in peripheral margins away from face and text */}
       <OrbitFallback />
 
       <div className="relative z-10 flex flex-col items-center text-center">
@@ -174,7 +191,7 @@ export function ProfileCard({ locale }: ProfileCardProps) {
           {bio}
         </p>
 
-        {/* Uniform Social Media Links with icons & labels */}
+        {/* Uniform Social Media Links with animated icons & static labels */}
         <ul className="mt-[18px] flex flex-wrap items-center justify-center gap-2">
           {activeSocials.map((social) => (
             <li key={social.id}>
@@ -182,7 +199,7 @@ export function ProfileCard({ locale }: ProfileCardProps) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex h-[34px] items-center gap-1.5 rounded-[8px] border border-[#121212]/10 bg-[#121212]/[0.03] px-2.5 text-[12px] font-medium text-[#121212] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F46C38]/40 hover:bg-[#F46C38]/10 hover:text-[#CA592E] focus-visible:border-[#F46C38]/40 focus-visible:bg-[#F46C38]/10 focus-visible:text-[#CA592E]"
+                className="group btn-press inline-flex h-[34px] items-center gap-1.5 rounded-[8px] border border-[#121212]/10 bg-[#121212]/[0.03] px-2.5 text-[12px] font-medium text-[#121212] hover:border-[#F46C38]/40 hover:bg-[#F46C38]/10 hover:text-[#CA592E] focus-visible:border-[#F46C38]/40 focus-visible:bg-[#F46C38]/10 focus-visible:text-[#CA592E]"
               >
                 <span className="text-[#555659] transition-colors duration-200 group-hover:text-[#F46C38] group-focus-visible:text-[#F46C38]">
                   <SocialSvg id={social.id} className="h-[14px] w-[14px]" />

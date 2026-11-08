@@ -73,7 +73,7 @@ export function ProjectRow({ project, locale }: ProjectRowProps) {
                 href={primaryHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex shrink-0 items-center gap-1 rounded-[6px] border border-[#F46C38]/30 bg-[#F46C38]/10 px-2.5 py-1 text-[12px] font-medium text-[#F46C38] transition-colors duration-200 hover:bg-[#F46C38] hover:text-white"
+                className="hidden sm:inline-flex btn-press shrink-0 items-center gap-1 rounded-[6px] border border-[#F46C38]/30 bg-[#F46C38]/10 px-2.5 py-1 text-[12px] font-medium text-[#F46C38] transition-colors duration-200 hover:bg-[#F46C38] hover:text-white"
               >
                 <span>{t('visitSite')}</span>
                 <ArrowUpRight

@@ -144,7 +144,7 @@ export function ProfilePortrait({ locale }: { locale: Locale }) {
           fill
           priority
           sizes="240px"
-          className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
       ) : (
         <>

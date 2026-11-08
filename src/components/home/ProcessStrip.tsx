@@ -2,7 +2,6 @@
 
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import {
   specializationStages,
@@ -60,9 +59,9 @@ function StageCard({
   return (
     <article
       className={cn(
-        'rounded-[14px] border transition-colors duration-200',
+        'rounded-[14px] border transition-all duration-300',
         isExpanded
-          ? 'border-[#F46C38]/40 bg-[#1F1B1A]'
+          ? 'border-[#F46C38]/50 bg-[#211C1A] shadow-[0_8px_30px_rgba(244,108,56,0.12)]'
           : 'border-white/[0.07] bg-[#1C1918] hover:border-white/[0.16]'
       )}
     >
@@ -74,11 +73,18 @@ function StageCard({
             aria-expanded={isExpanded}
             aria-controls={panelId}
             onClick={() => onToggle(stage.number)}
-            className="group flex w-full items-start justify-between gap-4 text-start cursor-pointer"
+            className="group flex w-full items-start justify-between gap-4 text-start cursor-pointer select-none"
           >
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="inline-flex h-[24px] items-center rounded-[6px] bg-[#F46C38]/12 px-2 font-display text-[12px] font-bold tracking-wider text-[#F46C38]">
+                <span
+                  className={cn(
+                    'inline-flex h-[24px] items-center rounded-[6px] px-2 font-display text-[12px] font-bold tracking-wider transition-all duration-300',
+                    isExpanded
+                      ? 'bg-[#F46C38] text-white shadow-[0_2px_10px_rgba(244,108,56,0.45)]'
+                      : 'bg-[#F46C38]/12 text-[#F46C38]'
+                  )}
+                >
                   {stage.number}
                 </span>
                 <span className="font-display text-[19px] sm:text-[21px] font-bold tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-[#F46C38]">
@@ -98,14 +104,14 @@ function StageCard({
               </p>
             </div>
 
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[8px] border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] sm:text-[12px] font-medium text-white/80 transition-colors duration-200 group-hover:border-[#F46C38]/45 group-hover:text-white">
+            <span className="btn-press inline-flex shrink-0 items-center gap-1.5 rounded-[8px] border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] sm:text-[12px] font-medium text-white/80 transition-colors duration-200 group-hover:border-[#F46C38]/45 group-hover:text-white">
               <span className="hidden sm:inline">
                 {isExpanded ? labels.hideDetails : labels.showDetails}
               </span>
               <ChevronDown
                 aria-hidden="true"
                 className={cn(
-                  'h-[15px] w-[15px] text-[#F46C38] transition-transform duration-300 ease-out',
+                  'h-[15px] w-[15px] text-[#F46C38] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
                   isExpanded && 'rotate-180'
                 )}
               />
@@ -113,7 +119,7 @@ function StageCard({
           </button>
         </h2>
 
-        {/* Outer disclosure wrapper with CSS grid expansion */}
+        {/* Outer disclosure wrapper with intrinsic CSS grid expansion */}
         <div
           ref={panelRef}
           id={panelId}
@@ -194,6 +200,7 @@ export function ProcessStrip({
         </p>
       </Reveal>
 
+      {/* Stage Cards */}
       <div className="mt-[28px] flex flex-col gap-[14px]">
         {specializationStages.map((stage, idx) => (
           <Reveal key={stage.number} delay={idx * 0.04}>

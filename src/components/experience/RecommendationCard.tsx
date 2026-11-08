@@ -47,7 +47,7 @@ export function RecommendationCard({
           <button
             type="button"
             onClick={() => setShowEnglishInAr((v) => !v)}
-            className="text-[12px] text-[#998F8F] transition-colors duration-200 hover:text-white cursor-pointer"
+            className="btn-press text-[12px] text-[#998F8F] transition-colors duration-200 hover:text-white cursor-pointer"
           >
             {showEnglishInAr ? t('showArabic') : t('showOriginal')}
           </button>
