@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
 export const SAWAD_SPRING = {
@@ -17,54 +17,42 @@ interface RevealProps {
   delay?: number;
   y?: number;
   className?: string;
-  once?: boolean;
+  fast?: boolean;
 }
 
 /**
- * Progressive reveal wrapper that never leaves elements invisible on SSR,
- * headless browsers, or before IntersectionObserver fires.
- * Content is always visible (`opacity: 1`) on initial paint, and gently
- * animates in when entering the viewport below the fold.
+ * Robust scroll reveal component anchored in Motion's `whileInView`.
+ * - Triggers cleanly as each section enters viewport during scroll.
+ * - `viewport: { once: true }` ensures elements never flash or disappear on reverse scrolling.
+ * - Fast mode ensures project lists appear briskly without sluggish delays.
+ * - Respects `prefers-reduced-motion` explicitly.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 14,
+  y = 12,
   className,
+  fast = false,
 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const [entered, setEntered] = useState(true);
-
-  useEffect(() => {
-    if (prefersReducedMotion || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    if (rect.top > window.innerHeight * 0.92) {
-      setEntered(false);
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0]?.isIntersecting) {
-            setEntered(true);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.1 }
-      );
-      observer.observe(ref.current);
-      return () => observer.disconnect();
-    }
-  }, [prefersReducedMotion]);
 
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
   }
 
+  const duration = fast ? 0.26 : 0.42;
+  const clampedDelay = Math.min(delay, fast ? 0.08 : 0.15);
+
   return (
     <motion.div
-      ref={ref}
-      initial={false}
-      animate={entered ? { opacity: 1, y: 0 } : { opacity: 0.15, y }}
-      transition={{ duration: 0.45, delay: Math.min(delay, 0.18), ease: SAWAD_EASE }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12, margin: '0px 0px -40px 0px' }}
+      transition={{
+        duration,
+        delay: clampedDelay,
+        ease: SAWAD_EASE,
+      }}
       className={className}
     >
       {children}

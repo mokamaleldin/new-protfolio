@@ -25,7 +25,7 @@ export function RecentProjects({ locale }: RecentProjectsProps) {
 
       <div className="mt-[28px] flex flex-col gap-[16px]">
         {featuredProjects.slice(0, 3).map((project, idx) => (
-          <Reveal key={project.slug} delay={idx * 0.05}>
+          <Reveal key={project.slug} delay={idx * 0.03} fast>
             <ProjectRow project={project} locale={locale} />
           </Reveal>
         ))}

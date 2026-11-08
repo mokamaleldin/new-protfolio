@@ -245,8 +245,8 @@ export const specializationStages: SpecializationStage[] = [
       },
     ],
     example: {
-      en: 'With a media team: tracing how a story moves from topic prep and editing to design templates, review, and publishing. For a new idea: clarifying what task the first real user needs to complete quickly.',
-      ar: 'في فريق إعلامي: تتبّع انتقال المادة من التحضير والتحرير إلى القوالب البصرية والمراجعة ثم النشر. ومع فكرة جديدة: تحديد من سيستخدمها فعلًا وما المهمة التي يحتاج إنجازها بوضوح من أول زيارة.',
+      en: 'In Kashida: tracing the actual editorial path from content writing and copy editing to visual layout and multi-platform publishing, mapping handoff points between team members.',
+      ar: 'في منصة كشيدة: تتبّع المسار التحريري من كتابة المحتوى والتحرير إلى تصميم القوالب البصرية والنشر، وتحديد نقاط التعطيل بين أعضاء الفريق.',
     },
     outcome: {
       en: 'A clear workflow map and defined scope',
@@ -274,8 +274,8 @@ export const specializationStages: SpecializationStage[] = [
       },
     ],
     example: {
-      en: 'Spotting that a team repeatedly formats visual assets by hand across platforms or tracks status in scattered chats—alongside the opportunity to unify inputs into one structured flow.',
-      ar: 'اكتشاف أن الفريق يعيد ضبط التصاميم أو النصوص العربية يدويًا لكل منصة، أو يتابع الطلبات عبر محادثات متفرقة، مع فرصة واضحة لتوحيد المدخلات وتقليل الهدر الزمني.',
+      en: 'In ID8 Media: identifying manual re-entry bottlenecks across broadcast rundowns and on-air graphics, spotting the opportunity to connect the producer UI directly to live data feeds.',
+      ar: 'في ID8 Media: اكتشاف التكرار اليدوي في إدخال بيانات جداول البث وشاشات التلفزيون، وتحديد فرصة ربط واجهة الإنتاج بالنظام مباشرة لتحديث المحتوى لحظيًا.',
     },
     outcome: {
       en: 'Prioritized bottlenecks and improvement opportunities',
@@ -303,8 +303,8 @@ export const specializationStages: SpecializationStage[] = [
       },
     ],
     example: {
-      en: 'Keeping layout typography, pricing/inventory rules, and publishing logic strictly deterministic in code while reserving AI for drafting, summarizing, or classification with editorial sign-off.',
-      ar: 'إبقاء قواعد التصميم العربي أو حسابات المخزون والطلبات مضبوطة برمجيًا، مع الاستعانة بالذكاء الاصطناعي في الصياغة الأولية أو التلخيص أو التصنيف تحت مراجعة الفريق.',
+      en: 'In Duthur: designing a tailored inventory system tracking stock levels per size, with automated order verification and fulfillment alerts to eliminate manual errors.',
+      ar: 'في متجر دُثور: تصميم نظام مخصص لإدارة المنتجات والمقاسات وحركات المخزون، مع أتمتة إشعارات الطلبات والشحن لتقليل الأخطاء البشرية.',
     },
     outcome: {
       en: 'A clear, agreed solution blueprint before implementation',
@@ -332,8 +332,8 @@ export const specializationStages: SpecializationStage[] = [
       },
     ],
     example: {
-      en: 'Rolling out a core workflow first—such as a visual studio, episode hub, or order/inventory panel—observing how the team uses it daily, and refining friction points step by step.',
-      ar: 'إطلاق المسار الأساسي أولًا — مثل أداة إنتاج بطاقات أو منصة حلقات أو لوحة إدارة متجر ومخزون — ومراجعة تجربة الاستخدام اليومي لتحسين التفاصيل باستمرار.',
+      en: 'In 7analaan & Sahwa: launching the core media and catalog interfaces as an early working version, testing with the team, and refining media playback and layout based on real usage.',
+      ar: 'في حان الآن وصحوة: إطلاق الواجهات الأساسية كنسخة أولى قابلة للتجربة المباشرة مع الفريق، ثم تحسين تجربة التصفح وعرض الوسائط بناءً على الاستخدام الفعلي.',
     },
     outcome: {
       en: 'A working release ready for use and iteration',

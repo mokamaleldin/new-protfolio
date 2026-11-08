@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { ExperienceEntry } from '@/data/experience';
 import type { Locale } from '@/i18n/routing';
@@ -31,12 +30,12 @@ export function ExperienceItem({
   const primaryRole = entry.roles[0]?.title[locale];
   const earlierRoles = entry.roles.slice(1);
 
-  const innerContent = (
-    <div className="group relative flex items-start justify-between gap-4 rounded-[12px] border border-white/[0.06] bg-[#1A1716]/75 p-[18px] sm:p-[20px] transition-all duration-200 hover:border-white/[0.12] hover:bg-[#1E1B1A]">
-      <div className="min-w-0 flex-1">
+  return (
+    <div className="group relative rounded-[12px] border border-white/[0.06] bg-[#1A1716]/75 p-[18px] sm:p-[20px] transition-all duration-200 hover:border-white/[0.14] hover:bg-[#1E1B1A]">
+      <div className="min-w-0">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-            <h3 className="font-display text-[19px] sm:text-[21px] font-semibold tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-[#F46C38]">
+            <h3 className="font-display text-[19px] sm:text-[21px] font-semibold tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-white/95">
               {entry.company[locale]}
             </h3>
             {primaryRole && (
@@ -86,30 +85,6 @@ export function ExperienceItem({
           </ul>
         )}
       </div>
-
-      {entry.url && (
-        <span
-          aria-hidden="true"
-          className="pt-1 text-[#F46C38] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5"
-        >
-          <ArrowUpRight className="h-[17px] w-[17px] rtl:-scale-x-100" />
-        </span>
-      )}
     </div>
   );
-
-  if (entry.url) {
-    return (
-      <a
-        href={entry.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block rounded-[12px]"
-      >
-        {innerContent}
-      </a>
-    );
-  }
-
-  return <div>{innerContent}</div>;
 }

@@ -41,19 +41,10 @@ function StageCard({
   onExpandForMatch,
   labels,
 }: StageCardProps) {
-  const prefersReducedMotion = useReducedMotion();
   const uid = useId();
   const panelId = `stage-panel-${stage.number}-${uid}`;
   const buttonId = `stage-trigger-${stage.number}-${uid}`;
   const panelRef = useRef<HTMLDivElement>(null);
-
-  const [supportsUntilFound, setSupportsUntilFound] = useState(false);
-  const [visualOpen, setVisualOpen] = useState(isExpanded);
-  const [settledClosed, setSettledClosed] = useState(!isExpanded);
-
-  useEffect(() => {
-    setSupportsUntilFound('onbeforematch' in HTMLElement.prototype);
-  }, []);
 
   useEffect(() => {
     const el = panelRef.current;
@@ -65,41 +56,6 @@ function StageCard({
     el.addEventListener('beforematch', handleBeforeMatch);
     return () => el.removeEventListener('beforematch', handleBeforeMatch);
   }, [onExpandForMatch, stage.number]);
-
-  useEffect(() => {
-    if (isExpanded) {
-      setSettledClosed(false);
-      if (prefersReducedMotion) {
-        setVisualOpen(true);
-        return;
-      }
-      let innerRafId = 0;
-      const outerRafId = requestAnimationFrame(() => {
-        innerRafId = requestAnimationFrame(() => {
-          setVisualOpen(true);
-        });
-      });
-      return () => {
-        cancelAnimationFrame(outerRafId);
-        if (innerRafId) cancelAnimationFrame(innerRafId);
-      };
-    }
-
-    setVisualOpen(false);
-    if (prefersReducedMotion) {
-      setSettledClosed(true);
-    }
-  }, [isExpanded, prefersReducedMotion]);
-
-  function handleTransitionEnd(e: React.TransitionEvent<HTMLDivElement>) {
-    if (
-      e.target === panelRef.current &&
-      !isExpanded &&
-      (e.propertyName === 'block-size' || e.propertyName === 'grid-template-rows')
-    ) {
-      setSettledClosed(true);
-    }
-  }
 
   return (
     <article
@@ -149,7 +105,7 @@ function StageCard({
               <ChevronDown
                 aria-hidden="true"
                 className={cn(
-                  'h-[15px] w-[15px] text-[#F46C38] transition-transform duration-200',
+                  'h-[15px] w-[15px] text-[#F46C38] transition-transform duration-300 ease-out',
                   isExpanded && 'rotate-180'
                 )}
               />
@@ -157,21 +113,13 @@ function StageCard({
           </button>
         </h2>
 
-        {/* Outer disclosure wrapper avoids direct border/padding so hidden="until-found" collapses cleanly */}
+        {/* Outer disclosure wrapper with CSS grid expansion */}
         <div
           ref={panelRef}
           id={panelId}
           role="region"
           aria-labelledby={buttonId}
-          data-open={visualOpen ? 'true' : 'false'}
-          hidden={
-            settledClosed
-              ? supportsUntilFound
-                ? ('until-found' as unknown as boolean)
-                : true
-              : undefined
-          }
-          onTransitionEnd={handleTransitionEnd}
+          data-open={isExpanded ? 'true' : 'false'}
           className="approach-stage-panel"
         >
           <div className="approach-stage-inner">

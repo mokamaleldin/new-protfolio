@@ -29,7 +29,8 @@
       "line1": "مشاريع",
       "line2": "مختارة",
       "viewAll": "عرض جميع المشاريع",
-      "viewCaseStudy": "قراءة دراسة الحالة"
+      "projectDetails": "تفاصيل المشروع",
+      "visitSite": "زيارة الموقع"
     },
     "experience": {
       "line1": "الخبرة",
@@ -56,7 +57,7 @@
       "line1": "آراء",
       "line2": "الزملاء",
       "viewAllOnExperience": "المزيد من آراء الزملاء",
-      "viewOnLinkedIn": "قراءة التوصيات الأصلية على LinkedIn",
+      "viewOnLinkedIn": "المزيد من آراء الزملاء",
       "showOriginal": "عرض النص الإنجليزي الأصلي",
       "showArabic": "عرض الترجمة العربية"
     },

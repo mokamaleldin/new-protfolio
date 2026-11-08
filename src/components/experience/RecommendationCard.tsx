@@ -22,10 +22,12 @@ export function RecommendationCard({
   const quoteText = recommendation.quote[activeQuoteLocale];
 
   return (
-    <article className="rounded-[12px] border border-white/[0.06] bg-[#1C1918] p-[20px] transition-colors duration-200 hover:border-white/[0.12]">
+    <article className="group rounded-[12px] border border-white/[0.06] bg-[#1C1918] p-[20px] transition-colors duration-200 hover:border-white/[0.14]">
       <div>
-        <h3 className="font-display text-[17px] font-semibold text-white">
-          {recommendation.authorName[locale]}
+        <h3 className="relative inline-block font-display text-[17px] font-semibold text-white">
+          <span className="relative z-10 transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:via-[#F46C38] group-hover:to-white group-hover:bg-[length:200%_auto] group-hover:animate-name-shimmer">
+            {recommendation.authorName[locale]}
+          </span>
         </h3>
         <p className="mt-1 text-[12px] sm:text-[13px] font-medium text-[#998F8F]">
           {recommendation.role[locale]}

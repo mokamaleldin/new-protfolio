@@ -70,39 +70,165 @@ html[lang="ar"] .font-display {
   line-height: 1.22;
 }
 
+/* Animated orbital dashes and micro-interactions */
+@keyframes orbit-dash-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -52px;
+  }
+}
+
+@keyframes orbit-dash-flow-rev {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 52px;
+  }
+}
+
+@keyframes orbit-drift-top {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(2px, -3px) rotate(0.6deg);
+  }
+}
+
+@keyframes orbit-drift-bottom {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-3px, 2px) rotate(-0.5deg);
+  }
+}
+
+@keyframes monogram-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 12px rgba(244, 108, 56, 0.35);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 18px rgba(244, 108, 56, 0.52);
+  }
+}
+
+@keyframes name-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Feature card wave and signal animations */
+@keyframes wave-ripple-slow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-10px, 5px);
+  }
+}
+
+@keyframes wave-ripple-fast {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(12px, -6px);
+  }
+}
+
+@keyframes polyline-signal-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -48px;
+  }
+}
+
+@keyframes page-quick-enter {
+  from {
+    opacity: 0.88;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-enter {
+  animation: page-quick-enter 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-orbit-top {
+  transform-origin: 20% 10%;
+  animation:
+    orbit-dash-flow 10s linear infinite,
+    orbit-drift-top 7s ease-in-out infinite;
+}
+
+.animate-orbit-bottom {
+  transform-origin: 10% 80%;
+  animation:
+    orbit-dash-flow-rev 12s linear infinite,
+    orbit-drift-bottom 8s ease-in-out infinite;
+}
+
+.animate-monogram-badge {
+  animation: monogram-float 3.6s ease-in-out infinite;
+}
+
+.animate-name-shimmer {
+  animation: name-shimmer 2.2s ease-in-out infinite;
+}
+
+.animate-wave-card-1 {
+  animation: wave-ripple-slow 8s ease-in-out infinite;
+}
+
+.animate-wave-card-2 {
+  animation: wave-ripple-fast 6.5s ease-in-out infinite;
+}
+
+.animate-signal-card {
+  stroke-dasharray: 14 10;
+  animation: polyline-signal-flow 3.5s linear infinite;
+}
+
 /* Intrinsic-size disclosure panel animation with universal grid fallback */
 .approach-stage-panel {
   display: grid;
   grid-template-rows: 0fr;
-  opacity: 0;
-  overflow: hidden;
-  transition:
-    grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.24s ease;
+  transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .approach-stage-panel[data-open="true"] {
   grid-template-rows: 1fr;
-  opacity: 1;
 }
 
 .approach-stage-inner {
   min-height: 0;
   overflow: hidden;
+  transition:
+    opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateY(-4px);
 }
 
-@supports (interpolate-size: allow-keywords) {
-  .approach-stage-panel {
-    display: block;
-    block-size: 0;
-    transition:
-      block-size 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.24s ease;
-  }
-
-  .approach-stage-panel[data-open="true"] {
-    block-size: auto;
-  }
+.approach-stage-panel[data-open="true"] .approach-stage-inner {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -110,11 +236,17 @@ html[lang="ar"] .font-display {
   *::before,
   *::after {
     transition-duration: 0s !important;
-    transform: none !important;
+    animation: none !important;
   }
 
   .approach-stage-panel {
     transition: none !important;
+  }
+
+  .approach-stage-inner {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
 

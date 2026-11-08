@@ -24,6 +24,13 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
   const [activeTooltipId, setActiveTooltipId] = useState<string | null>(null);
+  const [optimisticPathname, setOptimisticPathname] = useState<string | null>(null);
+
+  useEffect(() => {
+    setOptimisticPathname(null);
+  }, [pathname]);
+
+  const currentPath = optimisticPathname ?? pathname;
 
   const items = [
     {
@@ -31,35 +38,35 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
       href: '/',
       label: t('home'),
       icon: House,
-      isActive: pathname === '/',
+      isActive: currentPath === '/',
     },
     {
       id: 'projects',
       href: '/projects',
       label: t('projects'),
       icon: Folder,
-      isActive: pathname.startsWith('/projects'),
+      isActive: currentPath.startsWith('/projects'),
     },
     {
       id: 'approach',
       href: '/approach',
       label: t('approach'),
       icon: Compass,
-      isActive: pathname.startsWith('/approach'),
+      isActive: currentPath.startsWith('/approach'),
     },
     {
       id: 'experience',
       href: '/experience',
       label: t('experience'),
       icon: BriefcaseBusiness,
-      isActive: pathname.startsWith('/experience'),
+      isActive: currentPath.startsWith('/experience'),
     },
     {
       id: 'contact',
       href: '/contact',
       label: t('contact'),
       icon: Mail,
-      isActive: pathname.startsWith('/contact'),
+      isActive: currentPath.startsWith('/contact'),
     },
   ];
 
@@ -101,6 +108,7 @@ export function FloatingNavigation({ locale }: FloatingNavigationProps) {
                 href={item.href}
                 aria-label={item.label}
                 aria-current={item.isActive ? 'page' : undefined}
+                onClick={() => setOptimisticPathname(item.href)}
                 onFocus={() => setActiveTooltipId(item.id)}
                 onBlur={() =>
                   setActiveTooltipId((prev) => (prev === item.id ? null : prev))

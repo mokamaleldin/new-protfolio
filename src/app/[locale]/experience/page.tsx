@@ -96,7 +96,7 @@ export default async function ExperiencePage({
         </Reveal>
 
         <div className="mt-[26px] flex flex-col gap-[16px]">
-          {recommendations.slice(0, 5).map((rec, idx) => (
+          {recommendations.slice(0, 4).map((rec, idx) => (
             <Reveal key={rec.id} delay={idx * 0.04}>
               <RecommendationCard recommendation={rec} locale={locale} />
             </Reveal>

@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useId } from 'react';
-import Image from 'next/image';
 import { siteConfig } from '@/data/site-config';
+import { profileScene } from '@/data/profile-scene';
 import { activeSocials, type SocialLink } from '@/data/socials';
 import type { Locale } from '@/i18n/routing';
 import { OrbitFallback } from '@/components/three/OrbitFallback';
+import { ProfilePortrait } from './ProfilePortrait';
 
 interface ProfileCardProps {
   locale: Locale;
@@ -101,7 +102,7 @@ function BrandMonogramBadge() {
   return (
     <div
       aria-hidden="true"
-      className="mt-[12px] flex h-[32px] w-[32px] items-center justify-center rounded-[8px] shadow-[0_4px_12px_rgba(244,108,56,0.35)]"
+      className="mt-[12px] flex h-[32px] w-[32px] items-center justify-center rounded-[8px] animate-monogram-badge shadow-[0_4px_12px_rgba(244,108,56,0.35)]"
     >
       <svg
         viewBox="0 0 64 64"
@@ -160,16 +161,12 @@ export function ProfileCard({ locale }: ProfileCardProps) {
 
       <div className="relative z-10 flex flex-col items-center text-center">
         {/* Inner rounded orange portrait frame */}
-        <div className="relative h-[264px] w-[224px] sm:h-[280px] sm:w-[238px] overflow-hidden rounded-[16px] bg-[#CA592E] shadow-[0_12px_24px_rgba(202,89,46,0.28)]">
-          <Image
-            src={siteConfig.profileImage.src}
-            alt={alt}
-            fill
-            priority
-            sizes="240px"
-            className="object-cover object-top"
-          />
-        </div>
+        <ProfilePortrait
+          locale={locale}
+          photoSrc={siteConfig.profileImage.src}
+          photoAlt={alt}
+          scene={profileScene}
+        />
 
         {/* Full Name */}
         <h2 className="mt-[20px] font-display text-[23px] sm:text-[24px] font-extrabold tracking-[-0.03em] text-[#121212] leading-[1.18]">

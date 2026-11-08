@@ -13,10 +13,10 @@ export function Hero({ locale }: HeroProps) {
     <section aria-labelledby="hero-heading" className="pt-1">
       <h1
         id="hero-heading"
-        className="font-display text-[32px] sm:text-[42px] md:text-[50px] lg:text-[58px] rtl:text-[30px] rtl:sm:text-[38px] rtl:md:text-[44px] rtl:lg:text-[52px] font-bold ltr:uppercase tracking-[-0.03em] leading-[1.06] rtl:leading-[1.2]"
+        className="font-display text-[34px] sm:text-[44px] md:text-[52px] lg:text-[62px] rtl:text-[30px] rtl:sm:text-[38px] rtl:md:text-[46px] rtl:lg:text-[54px] font-bold ltr:uppercase tracking-[-0.03em] leading-[1.04] rtl:leading-[1.18]"
       >
         <span className="block text-white">{heroHeading.line1[locale]}</span>
-        <span className="block text-[#F46C38] mt-1">
+        <span className="block text-[#9E9898] mt-1">
           {heroHeading.line2[locale]}
         </span>
       </h1>

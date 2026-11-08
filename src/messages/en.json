@@ -29,7 +29,8 @@
       "line1": "SELECTED",
       "line2": "PROJECTS",
       "viewAll": "View all projects",
-      "viewCaseStudy": "Read case study"
+      "projectDetails": "Project details",
+      "visitSite": "Visit website"
     },
     "experience": {
       "line1": "PROFESSIONAL",
@@ -56,7 +57,7 @@
       "line1": "WHAT COLLEAGUES",
       "line2": "SAY",
       "viewAllOnExperience": "More colleague recommendations",
-      "viewOnLinkedIn": "Read original recommendations on LinkedIn",
+      "viewOnLinkedIn": "More recommendations",
       "showOriginal": "Show original English",
       "showArabic": "Show Arabic translation"
     },

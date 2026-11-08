@@ -28,11 +28,11 @@ export const siteConfig = {
     } satisfies LocalizedText,
     heroHeading: {
       line1: {
-        en: 'Media Technology &',
+        en: 'MEDIA TECH',
         ar: 'مهندس تقنيات',
       } satisfies LocalizedText,
       line2: {
-        en: 'Automation Engineer',
+        en: 'ENGINEER',
         ar: 'الإعلام والأتمتة',
       } satisfies LocalizedText,
     },

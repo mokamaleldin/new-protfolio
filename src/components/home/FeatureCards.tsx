@@ -28,12 +28,14 @@ export function FeatureCards() {
               stroke="#B54014"
               strokeWidth="4"
               strokeLinecap="round"
+              className="animate-wave-card-1 origin-center"
             />
             <path
               d="M-10 210 C 80 185, 145 145, 195 110 C 235 82, 265 92, 310 80"
               stroke="#B54014"
               strokeWidth="4"
               strokeLinecap="round"
+              className="animate-wave-card-2 origin-center"
             />
           </svg>
 
@@ -79,6 +81,7 @@ export function FeatureCards() {
               stroke="rgba(108, 227, 182, 0.55)"
               strokeWidth="4.5"
               strokeLinejoin="round"
+              className="animate-signal-card"
             />
           </svg>
 

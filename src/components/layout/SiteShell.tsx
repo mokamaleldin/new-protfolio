@@ -25,7 +25,7 @@ export function SiteShell({ locale, children }: SiteShellProps) {
         <div className="flex flex-col md:flex-row md:items-start gap-[48px] lg:gap-[72px]">
           <ProfileCard locale={locale} />
 
-          <main className="min-w-0 flex-1 max-w-[696px]">
+          <main className="min-w-0 flex-1 max-w-[696px] page-transition-enter">
             {children}
             <Footer />
           </main>
